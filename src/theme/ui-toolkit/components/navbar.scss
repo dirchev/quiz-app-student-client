@@ -1,0 +1,80 @@
+@mixin navbar-coloring ($palette) {
+  background-color: map-get($palette, 600);
+  color: color-yiq(map-get($palette, 600));
+
+  .navbar-item {
+    color: color-yiq(map-get($palette, 600));
+    border-right: solid 1px color-yiq(map-get($palette, 600));
+
+    &:hover {
+      color: darken(color-yiq(map-get($palette, 600)), 10);
+    }
+  }
+}
+
+.navbar {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  .home {
+    flex: 1;
+    padding: 0 1rem;
+
+    .home-button {
+      color: white;
+      text-decoration: none;
+      padding: .3rem .7rem;
+      background-color: map-get($primary, 600);
+      border-radius: .3rem;
+      box-shadow: 1px 1px 2px 1px#00000055;
+    }
+  }
+
+  .right {
+    flex: 1;
+    padding: 0 1rem;
+    text-align: right;
+  }
+
+  .center {
+    flex: 2;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .navbar-items {
+    display: flex;
+    justify-content: flex-end;
+    .navbar-item {
+      display: inline-block;
+      padding: 0 .5rem;
+      text-decoration: none;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @each $color, $palette in $colorPalettes {
+    &.navbar-#{$color} {
+      @include navbar-coloring($palette)
+    }
+  }
+}

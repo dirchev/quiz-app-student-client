@@ -1,0 +1,218 @@
+.form {
+  &.inline {
+    .form-field {
+      grid-template-columns: 1fr 3fr;
+      grid-template-areas: "label input" "-1 message";
+    }
+    .form-controls {
+      margin-left: 25%;
+    }
+  }
+
+  .form-field {
+    overflow: hidden;
+    display: grid;
+    grid-template-areas: "label" "input" "message";
+    grid-template-columns: auto;
+    grid-row-gap: .2em;
+    margin-bottom: 10px;
+
+    &.checkbox, &.radio {
+      grid-template-areas: "input label" "input message";
+      grid-template-columns: max-content auto;
+      grid-column-gap: .5em;
+      align-items: center;
+
+      .label {
+        position: relative;
+
+        &:before {
+          position: absolute;
+          content: "";
+          display: block;
+          // makes take the max width-height of the .form-filed
+          // the .form-field is overflow: hidden, so it will no go outside it
+          // z-index: 1 will allow the whole area to be clicked and treated as
+          // the checkbox is being toggled
+          z-index: 1;
+          left: -100%;
+          width: 300%;
+          height: 300%;
+        }
+      }
+
+      & > input[type="checkbox"] {
+        visibility: hidden;
+        display: none;
+
+        &:checked ~ .check {
+          position: relative;
+          background-color: white;
+
+          &:after {
+            position: absolute;
+            content: "";
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+            background-color: map-get($primary, 500);
+          }
+        }
+
+        & ~ .check {
+          grid-area: input;
+          align-self: center;
+          border: solid 1px map-get($grey, 500);
+          position: relative;
+          height: 1.3em;
+          width: 1.3em;
+        }
+      }
+
+      & > input[type="radio"] {
+        visibility: hidden;
+        display: none;
+
+        &:checked ~ .check {
+          position: relative;
+          background-color: white;
+
+          &:after {
+            position: absolute;
+            content: "";
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            background-color: map-get($primary, 500);
+            border-radius: 50%;
+          }
+        }
+
+        & ~ .check {
+          align-self: center;
+          border: solid 1px map-get($grey, 500);
+          position: relative;
+          height: 1.3em;
+          width: 1.3em;
+          border-radius: 50%;
+        }
+
+      }
+    }
+
+    .label {
+      grid-area: label;
+      margin: 0;
+      padding: 0;
+    }
+
+    & > .input, & > & > .input-with-addition {
+      grid-area: input;
+      align-items: center;
+
+      .input {
+        flex-grow: 1;
+      }
+    }
+
+    .input {
+      margin: 0;
+      padding: .5em .6em;
+      display: inline-block;
+      border: 1px solid map-get(map-get($map: $colorPalettes, $key: grey), 400);
+      vertical-align: middle;
+      box-sizing: border-box;
+      width: 100%;
+
+      &:read-only {
+        background-color: map-get($grey, 300);
+        cursor: not-allowed;
+      }
+    }
+
+    input.input {
+      height: 2em;
+    }
+
+    textarea.input {
+      height: 6em;
+    }
+
+    .input-message {
+      vertical-align: top;
+      line-height: 100%;
+      grid-area: message;
+      font-size: .7em;
+      color: #686868;
+    }
+
+    .input-with-addition {
+      display: flex;
+
+      .input {
+        flex-grow: 1;
+      }
+
+      .input-addition {
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+        font-size: .8em;
+        padding: 0 1em 0 .7em;
+        border: 1px solid map-get(map-get($map: $colorPalettes, $key: grey), 400);
+        border-left: none;
+        background-color: map-get($grey, 300);
+        border-top-right-radius: .2em;
+        border-bottom-right-radius: .2em;
+
+        &.left {
+          border-right: none;
+          border-left: solid;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-top-left-radius: .2em;
+          border-bottom-left-radius: .2em;
+        }
+      }
+    }
+
+    &.is-successful {
+      .label {
+        color: map-get($success, 400);
+      }
+      .input {
+        border-color: map-get($success, 400);
+      }
+      .input-message {
+        color: map-get($success, 400);
+      }
+    }
+
+    &.is-loading {
+      .label {
+        color: map-gep($grey, 800);
+      }
+      .input {
+        border-color: map-gep($grey, 800);
+      }
+      .input-message {
+        color: map-gep($grey, 800);
+      }
+    }
+
+    &.has-error {
+      .label {
+        color: map-get($danger, 600);
+        font-weight: bold;
+      }
+      .input {
+        border-color: map-get($danger, 600);
+      }
+      .input-message {
+        color: map-get($danger, 600);
+      }
+    }
+  }
+}

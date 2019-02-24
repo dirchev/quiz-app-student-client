@@ -1,0 +1,152 @@
+/* The animation code */
+@keyframes checkingAnimation {
+  0% {
+    background-color: white;
+    border-color: map-get($grey, 300);
+  }
+  100% {
+    background-color: map-get($primary, 500);
+    border-color: map-get($primary, 500);
+  }
+}
+
+.quiz {
+  display: grid;
+  grid-gap: 5px;
+  align-items: center;
+  grid-template-columns: auto auto;
+  grid-template-areas:
+    "title title"
+    "progress timeleft"
+    "question question"
+    "controls controls";
+
+  & > .title {
+    grid-area: title;
+    font-size: 1.4rem;
+  }
+
+  & > .progress {
+    grid-area: progress;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .item {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: .3rem .6rem;
+      border-radius: 2px;
+      margin-right: 10px;
+      margin-left: 0;
+      margin-top: 0;
+      margin-bottom: 5px;
+
+      &:after {
+        z-index: 0;
+        position: absolute;
+        content: '';
+        display: inline-block;
+        top: 49%;
+        left: 100%;
+        bottom: 49%;
+        height: 1px;
+        width: 15px;
+        background-color: map-get($grey, 800);
+      }
+
+      &:last-child {
+        &:after {
+          display:none;
+        }
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  & > .timeleft {
+    text-align: right;
+    grid-area: timeleft;
+  }
+
+  & > .controls {
+    grid-area: controls;
+  }
+
+  & > .question {
+    grid-area: question;
+    border: solid 1px map-get($grey, 300);
+    box-shadow: 1px 1px 10px 1px #00000044;
+
+    & > .title {
+      margin: 1rem 1rem;
+      font-size: 1.2rem;
+    }
+
+    & > .content {
+      padding: 0 1rem;
+      text-align: justify;
+    }
+
+    & > .answer-select {
+      display: grid;
+      padding: .5rem 1rem 1rem;
+      grid-gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+
+      &.form {
+        grid-template-columns: auto;
+      }
+
+      @media screen and (max-width: 660px) {
+        grid-template-columns: auto;
+      }
+
+      & > .answer-select-item {
+        display: flex;
+        box-shadow: 1px 1px 4px 2px #00000022;
+        flex-flow: row-reverse;
+        border: solid 1px map-get($grey, 300);
+
+        & > input[type=radio], & > input[type=checkbox] {
+          visibility: hidden;
+          display: none;
+
+          &:checked ~ .check {
+            animation-name: checkingAnimation;
+            animation-duration: .5s;
+            background-color: map-get($primary, 500);
+            border-color: map-get($primary, 500);
+          }
+        }
+
+        & > label {
+          flex: 5 0 0;
+          padding: .6rem;
+        }
+
+        &.checkbox > .check {
+          align-self: center;
+          border: solid 3px map-get($grey, 300);
+          position: relative;
+          height: 25px;
+          width: 25px;
+          margin: 0 10px;
+        }
+        &.radio > .check {
+          align-self: center;
+          border: solid 3px map-get($grey, 300);
+          position: relative;
+          height: 25px;
+          width: 25px;
+          margin: 0 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+@mixin button-coloring ($palette) {
+  color: color-yiq(map-get($palette, 400));
+  background-color: map-get($palette, 400);
+
+  &:hover {
+    background-color: map-get($palette, 500);
+  }
+
+  &.button-outline {
+    background: none;
+    border: solid 1px map-get($palette, 700);
+    color: map-get($palette, 700);
+  }
+
+  &.button-link {
+    background: none;
+    color: map-get($palette, 700);
+    text-decoration: underline;
+    padding: .5em 0;
+
+    &:hover {
+      color: map-get($palette, 900);
+    }
+  }
+}
+
+.button {
+  display: inline-block;
+  margin: .3em;
+  font-family: inherit;
+  font-size: 1em;
+  padding: .5em 1em;
+  border: none;
+  box-shadow: 0 1px 1px 0 rgba(60,64,67,.08), 0 1px 3px 1px rgba(60,64,67,.16);
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: 0 1px 3px 1px rgba(60,64,67,.2), 0 2px 8px 4px rgba(60,64,67,.1);
+    transition: box-shadow 135ms cubic-bezier(.4,0,.2,1), width 100ms cubic-bezier(.4,0,.2,1);
+  }
+
+  &:disabled,&.disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transition: none;
+
+    &:hover {
+      box-shadow: none;
+      transition: none;
+    }
+  }
+
+  &.button-small {
+    font-size: .9em;
+    padding: .3em .7em;
+  }
+
+  &.button-large {
+    font-size: 1.3em;
+    padding: .7em 1.3em;
+  }
+
+  &.button-link {
+    background-color: white;
+    box-shadow: none;
+  }
+
+  @each $color, $palette in $colorPalettes {
+    &.button-#{$color} {
+      @include button-coloring($palette)
+    }
+  }
+}

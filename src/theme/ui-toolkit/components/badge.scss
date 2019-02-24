@@ -1,0 +1,27 @@
+@mixin badge-coloring ($palette) {
+  color: color-yiq(map-get($palette, 500));
+  background-color: map-get($palette, 500);
+
+  @at-root a#{&}:hover {
+    background-color: map-get($palette, 600);
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: .2em .3em;
+  border-radius: 3px;
+  font-size: .8em;
+  line-height: 1em;
+  vertical-align: middle;
+
+  @at-root a#{&} {
+    text-decoration: none;
+  }
+
+  @each $color, $palette in $colorPalettes {
+    &.badge-#{$color} {
+      @include badge-coloring($palette)
+    }
+  }
+}

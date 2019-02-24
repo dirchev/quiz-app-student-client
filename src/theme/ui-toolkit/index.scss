@@ -1,0 +1,39 @@
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+@import './functions.scss';
+@import './colors.scss';
+
+@import './components/alert.scss';
+@import './components/navbar.scss';
+@import './components/badge.scss';
+@import './components/sidebar.scss';
+@import './components/button.scss';
+@import './components/tile.scss';
+@import './components/form.scss';
+@import './components/tabs.scss';
+@import './components/box.scss';
+
+@import './utils/controls.scss';
+@import './utils/helpers.scss';
+
+@import './content/table.scss';
+@import './content/typography.scss';
+
+@import './ui/assessment-card.scss';
+@import './ui/quiz-engagements-list.scss';
+@import './ui/quiz.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.block {
+  display: block!important;
+}

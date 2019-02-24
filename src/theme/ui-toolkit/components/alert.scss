@@ -1,0 +1,70 @@
+@mixin alert-coloring ($palette) {
+  color: map-get($palette, 900);
+  border-color: map-get($palette, 700);
+  background-color: map-get($palette, 50);
+
+  hr {
+    border-color: map-get($palette, 700);
+    border-bottom: 0;
+    border-top: solid 1px map-get($palette, 700);
+  }
+
+  .alert-link {
+    color: map-get($palette, 900);
+    font-weight: bold;
+  }
+
+  .close {
+    color: map-get($palette, 800);
+
+    &:hover {
+      background-color: map-get($palette, 300);
+      color: map-get($palette, 800);
+    }
+  }
+}
+
+.alert {
+  padding: 1.2rem;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: .1rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+
+  .alert-heading {
+    font-size: 1.4em;
+    margin: .3em 0;
+  }
+
+  &.alert-dismissable {
+    // padding-right: min(1.2rem, 16px);
+    position: relative;
+    .close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      text-align: right;
+      border: none;
+      background: none;
+      font-weight: bold;
+      font-size: 20px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      padding: 0;
+
+      &:hover {
+        border-radius: 50%;
+      }
+    }
+  }
+
+  @each $color, $palette in $colorPalettes {
+    &.alert-#{$color} {
+      @include alert-coloring($palette)
+    }
+  }
+}

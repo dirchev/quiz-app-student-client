@@ -1,0 +1,8 @@
+.box {
+  padding: 1rem 1rem;
+  box-shadow: 0px 0px 6px 2px #00000044;
+
+  &.box-small {
+    padding: .5rem;
+  }
+}
