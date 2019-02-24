@@ -15,37 +15,20 @@
 .navbar {
   height: 40px;
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
   justify-content: space-between;
   align-items: center;
 
-  .logo {
-    flex: 1;
-    padding: 0 1rem;
-  }
-
-  .home {
-    flex: 1;
-    padding: 0 1rem;
-
-    .home-button {
-      color: white;
-      text-decoration: none;
-      padding: .3rem .7rem;
-      background-color: map-get($primary, 600);
-      border-radius: .3rem;
-      box-shadow: 1px 1px 2px 1px#00000055;
-    }
+  .left {
+    text-align: left;
   }
 
   .right {
-    flex: 1;
-    padding: 0 1rem;
     text-align: right;
   }
 
   .center {
-    flex: 2;
     text-align: center;
     font-weight: bold;
   }
