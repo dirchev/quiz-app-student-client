@@ -1,16 +1,18 @@
-export let login = 'http://p1.lvh.me:8080/api/login'
-export let register = 'http://p1.lvh.me:8080/api/register'
+let root = process.env.REACT_APP_ROOT_URL
+
+export let login = `${root}/api/login`
+export let register = `${root}/api/register`
 export let quizApps = {
-  load: 'http://p1.lvh.me:8080/api/load'
+  load: `${root}/api/load`
 }
 export let quizess = {
-  list: `http://p1.lvh.me:8080/api/quizess`,
-  prepare: ({quizId}) => `http://p1.lvh.me:8080/api/quizess/${quizId}/prepare`,
+  list: `${root}/api/quizess`,
+  prepare: ({quizId}) => `${root}/api/quizess/${quizId}/prepare`,
 }
 
 export let quizEngagement = {
-  create: `http://p1.lvh.me:8080/api/quiz-engagements`,
-  update: ({quizEngagementId}) => `http://p1.lvh.me:8080/api/quiz-engagements/${quizEngagementId}`,
-  finish: ({quizEngagementId}) => `http://p1.lvh.me:8080/api/quiz-engagements/${quizEngagementId}/finish`,
-  list: ({quizId}) => `http://p1.lvh.me:8080/api/quiz-engagements/${quizId}`
+  create: `${root}/api/quiz-engagements`,
+  update: ({quizEngagementId}) => `${root}/api/quiz-engagements/${quizEngagementId}`,
+  finish: ({quizEngagementId}) => `${root}/api/quiz-engagements/${quizEngagementId}/finish`,
+  list: ({quizId}) => `${root}/api/quiz-engagements/${quizId}`
 }
