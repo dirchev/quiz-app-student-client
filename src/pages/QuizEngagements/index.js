@@ -39,9 +39,25 @@ class QuizEngagements extends Component {
                         <div className="item" key={quizEngagement._id}>
                           <div className="text">
                             Finished at {format(quizEngagement.finishedAt, 'HH:mm')}. <br/>
-                            Time elapsed {timeElapsedString} minutes.
+                            Time elapsed {timeElapsedString} minutes. <br/>
+                            {
+                              quizEngagement.marked
+                              ? 'Marked'
+                              : 'Not marked'
+                            }
                           </div>
                           <div className="actions">
+                          {
+                              quizEngagement.marked
+                              ? (
+                                <Link
+                                  to={`/quiz/${this.props.quiz._id}/engagement/${quizEngagement._id}/feedback`}
+                                  className="button button-small button-success">
+                                  View Feedback
+                                </Link>
+                              )
+                              : null
+                            }
                             <Link
                               to={`/quiz/${this.props.quiz._id}/engagement/${quizEngagement._id}`}
                               className="button button-small button-primary">

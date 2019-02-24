@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: 1fr 6fr;
     grid-column-gap: .5em;
-    border-bottom: solid 1px map-get($grey, 700);
+    border-bottom: solid 1px map-get($grey, 500);
 
     @media screen and (max-width: 660px) {
       grid-template-columns: 1fr 4fr;
