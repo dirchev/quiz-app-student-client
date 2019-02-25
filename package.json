@@ -19,7 +19,7 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "env-cmd .env react-scripts start",
+    "start": "env-cmd .env.local react-scripts start",
     "build": "react-scripts build",
     "build:staging": "env-cmd .env.staging react-scripts build",
     "build:production": "env-cmd .env.production react-scripts build",
