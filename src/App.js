@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import QuizPreview from './pages/QuizPreview';
 import QuizEngage from './pages/QuizEngage';
-import QuizEngagements from './pages/QuizEngagements';
 import QuizEngagement from './pages/QuizEngagement';
 // import QuizAnswers from './pages/QuizAnswers';
 
@@ -41,7 +40,6 @@ class App extends Component {
 
             <PrivateRoute exact path="/quiz/:quizId" component={QuizPreview} />
             <PrivateRoute path="/quiz/:quizId/engage" component={QuizEngage} />
-            <PrivateRoute path="/quiz/:quizId/engagements" component={QuizEngagements} />
             <PrivateRoute path="/quiz/:quizId/engagements/:quizEngagementId" component={QuizEngagement} />
             {/* <PrivateRoute path="/quiz/:quizId/feedback" component={QuizFeedback} />
             <PrivateRoute path="/quiz/:quizId/answers" component={QuizAnswers} /> */}
