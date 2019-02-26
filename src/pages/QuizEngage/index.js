@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import { connect } from "react-redux";
 import QuizEngageQuestion from "./Question";
 import {Link} from 'react-router-dom';
-import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement } from "../../actions/quizEngagement";
+import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement } from "../../actions/quizEngagement";
+import { getAllErrorMessages } from "../../utils/errorMessages";
 
 class QuizEngage extends Component {
   constructor (props) {
@@ -18,6 +19,10 @@ class QuizEngage extends Component {
 
   componentWillMount () {
     this.props.createQuizEngagement()
+  }
+
+  componentWillUnmount () {
+    this.props.endQuizEngagement(this.props.quizEngagement)
   }
 
   handleQuestionIndexChange (questionIndex) {
@@ -44,18 +49,35 @@ class QuizEngage extends Component {
   }
 
   render() {
-    if (!this.props.quizEngagement) {
+    if (this.props.createError || this.props.finishError) {
       return (
-        <div className="alert alert-info">
-          Starting quiz...
+        <div className="container">
+          <div className="alert alert-danger">
+            <h1>Error!</h1>
+            <p>
+              {getAllErrorMessages(this.props.createError || this.props.finishError).join('. ')}
+            </p>
+            You can now return to <Link to="/dashboard" className="alert-link">dashboard</Link>
+          </div>
+        </div>
+      )
+    }
+    if (this.props.createLoading || this.props.finishLoading || !this.props.quizEngagement) {
+      return (
+        <div className="container">
+          <div className="alert alert-info">
+            <p>
+              Starting quiz...
+            </p>
+          </div>
         </div>
       )
     }
     if (this.props.quizEngagement.finished) {
       return (
         <div className="container">
-          <div className="alert alert-info">
-            Quiz Finished <br/>
+          <div className="alert alert-success">
+            <h1>Quiz Submited!</h1>
             You can now return to <Link to="/dashboard" className="alert-link">dashboard</Link>
           </div>
         </div>
@@ -118,6 +140,10 @@ class QuizEngage extends Component {
 let mapStateToProps = (state, props) => {
   let quizId = props.match.params.quizId
   return {
+    createLoading: state.loading.QUIZ_ENGAGEMENT_CREATE,
+    createError: state.error.QUIZ_ENGAGEMENT_CREATE,
+    finishLoading: state.loading.QUIZ_ENGAGEMENT_FINISH,
+    finishError: state.error.QUIZ_ENGAGEMENT_FINISH,
     quizId: quizId,
     quiz: state.entities.quizess[quizId],
     questions: (state.entities.quizess[quizId].questions || []).map((_id) => state.entities.questions[_id]),
@@ -131,6 +157,7 @@ let mapDispatchToProps = (dispatch, props) => {
     createQuizEngagement: () => dispatch(createQuizEngagement({quizId})),
     updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({quizEngagement})),
     finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({quizEngagement})),
+    endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({quizEngagement})),
   }
 }
 

@@ -63,3 +63,10 @@ export let listQuizEngagements = ({quizId}) => async dispatch => {
     dispatch({ type: 'QUIZ_ENGAGEMENT_LIST_ERROR', payload: {error: err.response.data} })
   }
 }
+
+export let endQuizEngagement = ({quizEngagement}) => async dispatch => {
+  dispatch({
+    type: 'QUIZ_ENGAGEMENT_END',
+    payload: {quizEngagement}
+  })
+}
