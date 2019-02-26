@@ -1,4 +1,4 @@
-let root = process.env.REACT_APP_ROOT_URL
+let root = process.env.REACT_APP_ROOT_URL || ''
 
 export let login = `${root}/api/login`
 export let register = `${root}/api/register`
