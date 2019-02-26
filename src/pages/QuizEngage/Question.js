@@ -3,6 +3,7 @@ import MultipleChoiceQuestionOneCorrect from './AnswersForm/MultipleChoiceQuesti
 import MultipleChoiceQuestionMultipleCorrect from './AnswersForm/MultipleChoiceQuestionMultipleCorrect'
 import FreeShortText from './AnswersForm/FreeShortText'
 import FreeLongText from './AnswersForm/FreeLongText'
+import MultilineText from "../../components/MultilineText";
 
 const TYPE_COMPONENT_MAP = {
   'MCQ_MULTIPLE_RIGHT': MultipleChoiceQuestionMultipleCorrect,
@@ -18,7 +19,7 @@ class QuizEngageQuestion extends Component {
       <div className="question">
         <h2 className="title">{question.title}</h2>
         <div className="content">
-          <p>{question.content}</p>
+          <MultilineText text={question.content} />
         </div>
         {
           this.renderAnswerSection(question)
