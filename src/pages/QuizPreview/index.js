@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom'
 import { prepareQuiz } from 'actions/quiz'
+import MultilineText from "../../components/MultilineText";
 
 class QuizPreview extends Component {
   componentWillMount () {
@@ -13,7 +14,7 @@ class QuizPreview extends Component {
       <div className="container">
         <section>
           <h1>{this.props.quiz.name}</h1>
-          <p>{this.props.quiz.description}</p>
+          <MultilineText text={this.props.quiz.description} />
           <p>
             You have <strong>{this.props.quiz.noOfAttempts}</strong> attempts for this quiz.
             {
