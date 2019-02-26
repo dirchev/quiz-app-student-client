@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux";
 import { format } from "date-fns";
-import { Link } from 'react-router-dom'
 
 class QuizEngagement extends Component {
   render() {
