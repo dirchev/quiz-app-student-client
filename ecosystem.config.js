@@ -19,8 +19,6 @@ module.exports = {
       repo: "git@github.com:dirchev/quiz-app-student-client.git",
       // path in the server
       path: "/home/dirchev/quiz-app-student-client",
-      // Pre-setup command or path to a script on your local machine
-      "pre-setup": "echo \"NODE_PATH='src/'\" > .env",
       // Post-setup commands or path to a script on the host machine
       // eg: placing configurations in the shared dir etc
       "post-setup": "ls -la",
