@@ -42,7 +42,7 @@ module.exports = {
       // eg: placing configurations in the shared dir etc
       "post-setup": "ls -la",
       // post-deploy action
-      "post-deploy": "npm install --production && npm run build:staging",
+      "post-deploy": "npm install --no-save && npm run build:staging",
     },
   }
 }
