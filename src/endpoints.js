@@ -11,8 +11,8 @@ export let quizess = {
 }
 
 export let quizEngagement = {
-  create: `${root}/api/quiz-engagements`,
-  update: ({quizEngagementId}) => `${root}/api/quiz-engagements/${quizEngagementId}`,
-  finish: ({quizEngagementId}) => `${root}/api/quiz-engagements/${quizEngagementId}/finish`,
-  list: ({quizId}) => `${root}/api/quiz-engagements/${quizId}`
+  create: ({quizId}) => `${root}/api/quizess/${quizId}/quiz-engagements`,
+  update: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}`,
+  finish: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}/finish`,
+  list: ({quizId}) => `${root}/api/quizess/${quizId}/quiz-engagements`
 }

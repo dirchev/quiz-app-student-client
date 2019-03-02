@@ -7,7 +7,7 @@ export let createQuizEngagement = ({quizId}) => async dispatch => {
     type: 'QUIZ_ENGAGEMENT_CREATE_REQUEST',
   })
   try {
-    let {data} = await axios.post(quizEngagementEndpoint.create, {quizId})
+    let {data} = await axios.post(quizEngagementEndpoint.create({quizId}))
     dispatch({ type: 'QUIZ_ENGAGEMENT_CREATE_SUCCESS', payload: {quizEngagement: data, quizId} })
   } catch (err) {
     console.error(err)
@@ -21,7 +21,7 @@ let syncQuizEngagementDebounced = debounce(async ({quizEngagement}, dispatch) =>
     type: 'QUIZ_ENGAGEMENT_UPDATE_REQUEST',
   })
   try {
-    let {data} = await axios.put(quizEngagementEndpoint.update({quizEngagementId: quizEngagement._id}), quizEngagement)
+    let {data} = await axios.put(quizEngagementEndpoint.update({quizId: quizEngagement.quiz, quizEngagementId: quizEngagement._id}), quizEngagement)
     dispatch({ type: 'QUIZ_ENGAGEMENT_UPDATE_SUCCESS', payload: {quizEngagement: data} })
   } catch (err) {
     console.error(err)
@@ -43,7 +43,7 @@ export let finishQuizEngagement = ({quizEngagement}) => async dispatch => {
     type: 'QUIZ_ENGAGEMENT_FINISH_REQUEST',
   })
   try {
-    let {data} = await axios.post(quizEngagementEndpoint.finish({quizEngagementId: quizEngagement._id}), {quizEngagement})
+    let {data} = await axios.post(quizEngagementEndpoint.finish({quizId: quizEngagement.quiz, quizEngagementId: quizEngagement._id}), {quizEngagement})
     dispatch({ type: 'QUIZ_ENGAGEMENT_FINISH_SUCCESS', payload: {quizEngagement: data} })
   } catch (err) {
     console.error(err)
