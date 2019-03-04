@@ -38,9 +38,17 @@ class Dashboard extends Component {
           }
           <div className="info-item primary">{quiz.noOfAttempts || 'unlimited'} attempts</div>
         </div>
+        <div className="description">
+        {
+          !quiz.marksReleased
+          ? (
+            <span className="badge badge-blue">Marks are pending for this quiz.</span>
+          )
+          : null
+        }
+        </div>
         <div className="controls">
-          <Link to={`/quiz/${quiz._id}/engagements`} className="button button-blue button-small button-outline">View Attempts</Link>
-          <Link to={`/quiz/${quiz._id}`} className="button button-blue button-small">Complete Quiz</Link>
+          <Link to={`/quiz/${quiz._id}`} className="button button-blue button-small">View Quiz</Link>
         </div>
       </div>
     )
