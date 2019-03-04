@@ -21,12 +21,12 @@
     "question question"
     "controls controls";
 
-  & > .title {
+  .title {
     grid-area: title;
     font-size: 1.4rem;
   }
 
-  & > .progress {
+  .progress {
     grid-area: progress;
     display: flex;
     flex-wrap: wrap;
@@ -68,31 +68,31 @@
     }
   }
 
-  & > .timeleft {
+  .timeleft {
     text-align: right;
     grid-area: timeleft;
   }
 
-  & > .controls {
+  .controls {
     grid-area: controls;
   }
 
-  & > .question {
+  .question, .question-feedback {
     grid-area: question;
     border: solid 1px map-get($grey, 300);
     box-shadow: 1px 1px 10px 1px #00000044;
 
-    & > .title {
+    .title {
       margin: 1rem 1rem;
       font-size: 1.2rem;
     }
 
-    & > .content {
+    .content {
       padding: 0 1rem;
       text-align: justify;
     }
 
-    & > .answer-select {
+    .answer-select {
       display: grid;
       padding: .5rem 1rem 1rem;
       grid-gap: 1rem;
@@ -106,13 +106,13 @@
         grid-template-columns: auto;
       }
 
-      & > .answer-select-item {
+      .answer-select-item {
         display: flex;
         box-shadow: 1px 1px 4px 2px #00000022;
         flex-flow: row-reverse;
         border: solid 1px map-get($grey, 300);
 
-        & > input[type=radio], & > input[type=checkbox] {
+        input[type=radio], input[type=checkbox] {
           visibility: hidden;
           display: none;
 
@@ -124,7 +124,7 @@
           }
         }
 
-        & > label {
+        label {
           flex: 5 0 0;
           padding: .6rem;
         }
@@ -146,6 +146,51 @@
           margin: 0 10px;
           border-radius: 50%;
         }
+      }
+    }
+  }
+
+  .question-feedback > .answer {
+    display: flex;
+    flex-direction: column;
+    & > .answer-item {
+      border-top: solid 3px map-get($grey, 600);
+      position: relative;
+      padding: .4em;
+      text-align: justify;
+      flex-grow: 1;
+      ul > li {
+        &.correct {
+          color: map-get($success, 600);
+        }
+        &.incorrect {
+          color: map-get($danger, 600);
+        }
+      }
+      .label {
+        display: block;
+        z-index: 2;
+        font-size: .8em;
+        position: absolute;
+        background-color: map-get($grey, 600);
+        color: map-get($grey, 50);
+        padding: .2em .4em;
+        border-radius: .5em;
+        top: .2em;
+        right: .6em;
+      }
+    }
+  }
+
+  @media screen and (min-width: 660px) {
+    .question-feedback > .answer {
+      justify-content: stretch;
+      flex-direction: row;
+      & > .answer-item {
+        &:last-child {
+          border-right: none;
+        }
+        border-right: solid 1px map-get($grey, 600);
       }
     }
   }
