@@ -15,6 +15,18 @@ export let createQuizEngagement = ({quizId}) => async dispatch => {
   }
 }
 
+export let resumeQuizEngagement = ({quizId, quizEngagementId}) => async dispatch => {
+  dispatch({
+    type: 'QUIZ_ENGAGEMENT_RESUME_REQUEST',
+  })
+  try {
+    let {data} = await axios.post(quizEngagementEndpoint.resume({quizId, quizEngagementId}))
+    dispatch({ type: 'QUIZ_ENGAGEMENT_RESUME_SUCCESS', payload: {quizEngagement: data, quizId} })
+  } catch (err) {
+    console.error(err)
+    dispatch({ type: 'QUIZ_ENGAGEMENT_RESUME_ERROR', payload: {error: err.response.data} })
+  }
+}
 
 let syncQuizEngagementDebounced = debounce(async ({quizEngagement}, dispatch) => {
   dispatch({
@@ -61,6 +73,19 @@ export let listQuizEngagements = ({quizId}) => async dispatch => {
   } catch (err) {
     console.error(err)
     dispatch({ type: 'QUIZ_ENGAGEMENT_LIST_ERROR', payload: {error: err.response.data} })
+  }
+}
+
+export let retrieveQuizEngagement = ({quizId, quizEngagementId}) => async dispatch => {
+  dispatch({
+    type: 'QUIZ_ENGAGEMENT_RETRIEVE_REQUEST',
+  })
+  try {
+    let {data} = await axios.get(quizEngagementEndpoint.retrieve({quizId, quizEngagementId}))
+    dispatch({ type: 'QUIZ_ENGAGEMENT_RETRIEVE_SUCCESS', payload: {quizEngagement: data, quizId} })
+  } catch (err) {
+    console.error(err)
+    dispatch({ type: 'QUIZ_ENGAGEMENT_RETRIEVE_ERROR', payload: {error: err.response.data} })
   }
 }
 

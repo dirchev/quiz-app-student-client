@@ -9,6 +9,15 @@ const quizessEntities = (state = DEFAULT_STATE, action) => {
         ...state,
         ...arrayToEntities(action.payload.quizess)
       }
+    case 'QUIZ_RETRIEVE_SUCCESS':
+      return {
+        ...state,
+        [action.payload.quiz._id]: {
+          ...state[action.payload.quiz._id],
+          ...action.payload.quiz,
+          questions: action.payload.quiz.questions.map(({_id}) => _id)
+        }
+      }
     case 'QUIZ_PREPARE_SUCCESS':
       return {
         ...state,
