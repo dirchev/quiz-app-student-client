@@ -7,11 +7,14 @@ export let quizApps = {
 }
 export let quizess = {
   list: `${root}/api/quizess`,
+  retrieve: ({quizId}) => `${root}/api/quizess/${quizId}`,
   prepare: ({quizId}) => `${root}/api/quizess/${quizId}/prepare`,
 }
 
 export let quizEngagement = {
   create: ({quizId}) => `${root}/api/quizess/${quizId}/quiz-engagements`,
+  resume: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}/resume`,
+  retrieve: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}`,
   update: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}`,
   finish: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}/finish`,
   list: ({quizId}) => `${root}/api/quizess/${quizId}/quiz-engagements`
