@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux";
 import QuizEngageQuestion from "./Question";
 import {Link} from 'react-router-dom';
-import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement } from "../../actions/quizEngagement";
+import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement, resumeQuizEngagement } from "../../actions/quizEngagement";
 import { getAllErrorMessages } from "../../utils/errorMessages";
 
 class QuizEngage extends Component {
@@ -18,7 +18,7 @@ class QuizEngage extends Component {
   }
 
   componentWillMount () {
-    this.props.createQuizEngagement()
+    this.props.setupQuizEngagement()
   }
 
   componentWillUnmount () {
@@ -62,7 +62,7 @@ class QuizEngage extends Component {
         </div>
       )
     }
-    if (this.props.createLoading || this.props.finishLoading || !this.props.quizEngagement) {
+    if (this.props.setupLoading || this.props.finishLoading || !this.props.quizEngagement) {
       return (
         <div className="container">
           <div className="alert alert-info">
@@ -139,9 +139,14 @@ class QuizEngage extends Component {
 
 let mapStateToProps = (state, props) => {
   let quizId = props.match.params.quizId
+  let quizengagementId = props.match.params.quizengagementId
   return {
-    createLoading: state.loading.QUIZ_ENGAGEMENT_CREATE,
-    createError: state.error.QUIZ_ENGAGEMENT_CREATE,
+    setupLoading: quizengagementId
+    ? state.loading.QUIZ_ENGAGEMENT_RESUME
+    : state.loading.QUIZ_ENGAGEMENT_CREATE,
+    setupError: quizengagementId
+    ? state.error.QUIZ_ENGAGEMENT_RESUME
+    : state.error.QUIZ_ENGAGEMENT_CREATE,
     finishLoading: state.loading.QUIZ_ENGAGEMENT_FINISH,
     finishError: state.error.QUIZ_ENGAGEMENT_FINISH,
     quizId: quizId,
@@ -153,8 +158,15 @@ let mapStateToProps = (state, props) => {
 
 let mapDispatchToProps = (dispatch, props) => {
   let quizId = props.match.params.quizId
+  let quizEngagementId = props.match.params.quizEngagementId
   return {
-    createQuizEngagement: () => dispatch(createQuizEngagement({quizId})),
+    setupQuizEngagement: () => {
+      if (quizEngagementId) {
+        dispatch(resumeQuizEngagement({quizId, quizEngagementId}))
+      } else {
+        dispatch(createQuizEngagement({quizId}))
+      }
+    },
     updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({quizEngagement})),
     finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({quizEngagement})),
     endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({quizEngagement})),

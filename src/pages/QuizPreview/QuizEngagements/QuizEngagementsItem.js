@@ -1,20 +1,30 @@
 import React, { Component } from "react"
-import { format, differenceInSeconds } from "date-fns";
+import { format, differenceInMilliseconds } from "date-fns";
 import { Link } from 'react-router-dom'
+import prettyMs from 'pretty-ms'
 
 class QuizEngagementsItem extends Component {
   render() {
     let quizEngagement = this.props.quizEngagement
-    let timeElapsedInSeconds = differenceInSeconds(quizEngagement.finishedAt, quizEngagement.startedAt)
-    let timeElapsedString = [
-      Math.round(timeElapsedInSeconds / 60),
-      timeElapsedInSeconds % 60
-    ].join(':')
+    if (!quizEngagement.finished) {
+      return (
+        <div className="item">
+          <div className="text">
+            <span className="badge badge-warning">Not finished quiz</span> <br/><br/>
+            Started at {format(quizEngagement.startedAt, 'HH:mm')}. <br/>
+          </div>
+          <div className="actions">
+            <Link to={`/quiz/${quizEngagement.quiz}/engage/${quizEngagement._id}`} className="button button-small button-primary">Resume Quiz</Link>
+          </div>
+        </div>
+      )
+    }
+    let timeElapsedInMilliseconds = differenceInMilliseconds(quizEngagement.finishedAt, quizEngagement.startedAt)
     return (
-      <div className="item" key={quizEngagement._id}>
+      <div className="item">
         <div className="text">
           Finished at {format(quizEngagement.finishedAt, 'HH:mm')}. <br/>
-          Time elapsed {timeElapsedString} minutes. <br/>
+          Time elapsed: {prettyMs(timeElapsedInMilliseconds)}. <br/>
           {
             quizEngagement.marked
             ? 'Marked'
@@ -26,18 +36,13 @@ class QuizEngagementsItem extends Component {
             quizEngagement.marked
             ? (
               <Link
-                to={`/quiz/${this.props.quiz._id}/engagement/${quizEngagement._id}/feedback`}
+                to={`/quiz/${this.props.quiz._id}/feedback/${quizEngagement._id}`}
                 className="button button-small button-success">
                 View Feedback
               </Link>
             )
             : null
           }
-          <Link
-            to={`/quiz/${this.props.quiz._id}/engagement/${quizEngagement._id}`}
-            className="button button-small button-primary">
-            View Attempt
-          </Link>
         </div>
       </div>
     )

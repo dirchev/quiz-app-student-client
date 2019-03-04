@@ -5,8 +5,10 @@ const questionsEntities = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'QUIZ_ENGAGEMENT_START_SUCCESS':
     case 'QUIZ_ENGAGEMENT_CREATE_SUCCESS':
+    case 'QUIZ_ENGAGEMENT_RESUME_SUCCESS':
     case 'QUIZ_ENGAGEMENT_LOCAL_UPDATE':
     case 'QUIZ_ENGAGEMENT_FINISH_SUCCESS':
+    case 'QUIZ_ENGAGEMENT_RETRIEVE_SUCCESS':
       return {
         ...state,
         [action.payload.quizEngagement._id]: action.payload.quizEngagement

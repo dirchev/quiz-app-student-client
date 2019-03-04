@@ -26,3 +26,16 @@ export let prepareQuiz = ({quizId}) => async dispatch => {
     dispatch({ type: 'QUIZ_PREPARE_ERROR', payload: {error: err.response.data} })
   }
 }
+
+export let retrieveQuiz = ({quizId}) => async dispatch => {
+  dispatch({
+    type: 'QUIZ_RETRIEVE_REQUEST',
+  })
+  try {
+    let {data} = await axios.get(quizess.retrieve({quizId}))
+    dispatch({ type: 'QUIZ_RETRIEVE_SUCCESS', payload: {quiz: data, quizId} })
+  } catch (err) {
+    console.error(err)
+    dispatch({ type: 'QUIZ_RETRIEVE_ERROR', payload: {error: err.response.data} })
+  }
+}

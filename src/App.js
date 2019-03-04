@@ -6,10 +6,10 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import QuizPreview from './pages/QuizPreview';
 import QuizEngage from './pages/QuizEngage';
-import QuizEngagement from './pages/QuizEngagement';
+import QuizFeedback from './pages/QuizFeedback';
 // import QuizAnswers from './pages/QuizAnswers';
 
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Navigation from './components/Navigation'
 import { Provider } from 'react-redux'
 import PrivateRoute from './components/PrivateRoute'
@@ -39,10 +39,12 @@ class App extends Component {
             <PrivateRoute path="/profile" component={Profile} />
 
             <PrivateRoute exact path="/quiz/:quizId" component={QuizPreview} />
-            <PrivateRoute path="/quiz/:quizId/engage" component={QuizEngage} />
-            <PrivateRoute path="/quiz/:quizId/engagements/:quizEngagementId" component={QuizEngagement} />
-            {/* <PrivateRoute path="/quiz/:quizId/feedback" component={QuizFeedback} />
-            <PrivateRoute path="/quiz/:quizId/answers" component={QuizAnswers} /> */}
+            <PrivateRoute path="/quiz/:quizId/feedback/:quizEngagementId" component={QuizFeedback} />
+            <Switch>
+              <PrivateRoute path="/quiz/:quizId/engage/:quizEngagementId" component={QuizEngage} />
+              <PrivateRoute path="/quiz/:quizId/engage" component={QuizEngage} />
+            </Switch>
+            {/* <PrivateRoute path="/quiz/:quizId/answers" component={QuizAnswers} /> */}
           </div>
         </Router>
       </Provider>
