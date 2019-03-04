@@ -30,7 +30,7 @@ class QuizEngagements extends Component {
                 <div className="items">
                   {
                     groupedQuizEngagements[groupId].map((quizEngagement) => {
-                      return <QuizEngagementsItem quiz={this.props.quiz} quizEngagement={quizEngagement} />
+                      return <QuizEngagementsItem key={quizEngagement._id} quiz={this.props.quiz} quizEngagement={quizEngagement} />
                     })
                   }
                 </div>
