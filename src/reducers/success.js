@@ -8,7 +8,6 @@ export const successReducer = (state = {}, action) => {
   const matches = /(.*)_(REQUEST|SUCCESS|ERROR)/.exec(type)
   if (!matches) return state // not an action we care about
   const [, requestName, requestState] = matches;
-  console.log(requestName, requestState)
 
   return {
     ...state,
