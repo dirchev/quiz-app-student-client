@@ -1,5 +1,14 @@
 @import './ui-toolkit/index.scss';
 
+.offline-message {
+  background-color: map-get($danger, 700);
+  color: white;
+  text-align: center;
+  padding: .1em;
+  font-size: .8em;
+  font-weight: bold;
+}
+
 .code-example {
   background-color: white;
   border: solid 2px map-get($grey, 800);

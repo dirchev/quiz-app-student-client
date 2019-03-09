@@ -14,6 +14,19 @@ const questionsEntities = (state = DEFAULT_STATE, action) => {
         ...state,
         ...arrayToEntities(action.payload.questions)
       }
+    case 'QUIZ_LIST_SUCCESS':
+      let questions = []
+      action.payload.quizess.forEach(function (quiz) {
+        if (!quiz.questions) return
+        quiz.questions.forEach(function (question) {
+          if (!question._id) return
+          questions.push(question)
+        })
+      })
+      return {
+        ...state,
+        ...arrayToEntities(questions)
+      }
     default:
       return state
   }

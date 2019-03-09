@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
 $redPalette: (
   50: #FFEBEE,
   100: #FFCDD2,
@@ -330,7 +331,7 @@ $colorPalettes: (
   grey: $greyPalette,
   blueGrey: $blueGreyPalette,
   primary: $bluePalette,
-  secondary: $greenPalette,
+  secondary: $indigoPalette,
   success: $greenPalette,
   warning: $yellowPalette,
   danger: $redPalette,
@@ -338,7 +339,7 @@ $colorPalettes: (
 );
 
 $primary: map-get($colorPalettes, primary);
-$secondary: map-get($colorPalettes, green);
+$secondary: map-get($colorPalettes, secondary);
 $success: map-get($colorPalettes, green);
 $warning: map-get($colorPalettes, yellow);
 $danger: map-get($colorPalettes, red);

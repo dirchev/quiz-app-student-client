@@ -1,28 +1,33 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
+import Navigation from "components/Navigation";
 import { connect } from "react-redux";
 import { prepareQuiz } from 'actions/quiz'
-import QuizEngagements from './QuizEngagements'
 import QuizActions from "./QuizActions";
 import QuizDetails from "./QuizDetails";
 import './index.scss'
+import { listQuizEngagements } from "../../actions/quizEngagement";
 
 
 class QuizPreview extends Component {
   componentWillMount () {
     this.props.prepareQuiz()
+    this.props.getQuizEngagements()
   }
 
   render() {
+    let navTitle = (
+      <span>
+        Quiz: <strong>{this.props.quiz.name}</strong>
+      </span>
+    )
     return (
-      <div className="quiz-preview">
-        <div className="quiz-details">
-          <div className="box">
-            <QuizDetails quiz={this.props.quiz} />
-            <QuizActions quiz={this.props.quiz} />
-          </div>
+      <Fragment>
+        <Navigation leftBackTo="/dashboard" title={navTitle}/>
+        <div className="quiz-preview-container">
+          <QuizDetails quiz={this.props.quiz} />
+          <QuizActions quiz={this.props.quiz} />
         </div>
-        <QuizEngagements quiz={this.props.quiz} />
-      </div>
+      </Fragment>
     )
   }
 }
@@ -39,7 +44,8 @@ let mapStateToProps = (state, props) => {
 let mapDispatchToProps = (dispatch, props) => {
   let quizId = props.match.params.quizId
   return {
-    prepareQuiz: () => dispatch(prepareQuiz({quizId}))
+    prepareQuiz: () => dispatch(prepareQuiz({quizId})),
+    getQuizEngagements: () => dispatch(listQuizEngagements({quizId}))
   }
 }
 

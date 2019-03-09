@@ -4,25 +4,48 @@ import MultilineText from "../../components/MultilineText";
 class QuizDetails extends Component {
   render() {
     return (
-      <section>
-        <h1>{this.props.quiz.name}</h1>
-        <MultilineText text={this.props.quiz.description} />
-        <p>
-          You have <strong>{this.props.quiz.noOfAttempts}</strong> attempts for this quiz.
-          {
-            this.props.quiz.isMandatory
-            ? (
-              <span>The quiz is <strong>mandatory</strong>.</span>
-            ) : null
-          }
-        </p>
+      <div className="quiz-details">
+        <div className="quiz-details-item-description">
+          <div className="content">
+            <MultilineText text={this.props.quiz.description} />
+          </div>
+        </div>
         {
-          this.props.quiz.timeLimit
+          this.props.quiz.isMandatory
           ? (
-            <p>This quiz is time limited. You have <strong>{this.props.quiz.timeLimit}</strong> minutes to complete. The time will start counting from the moment you see the first question.</p>
-          ) : null
+            <div className="quiz-details-item">
+              <div className="label">Mandatory</div>
+              <div className="content">
+                This quiz is mandatory
+              </div>
+            </div>
+          )
+          : (
+            <div className="quiz-details-item">
+              <div className="label">Optional</div>
+              <div className="content">
+                This quiz is optional
+              </div>
+            </div>
+          )
         }
-      </section>
+        <div className="quiz-details-item">
+          <div className="label">Number of Attempts</div>
+          <div className="content">
+            This quiz can be attempted {this.props.quiz.noOfAttempts || 'unlimited'} times.
+          </div>
+        </div>
+        <div className="quiz-details-item">
+          <div className="label">Time Limit</div>
+          <div className="content">
+            {
+              this.props.quiz.timeLimit
+              ? `The time limit for this quiz is ${this.props.quiz.timeLimit} minutes.`
+              : `There is no time limit.`
+            }
+          </div>
+        </div>
+      </div>
     )
   }
 }
