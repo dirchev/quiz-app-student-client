@@ -25,7 +25,7 @@ class MultipleChoiceQuestionMultipleCorrect extends Component {
     return (
       <div className="answer-select">
         {
-          question.answers.map((answer, index) => {
+          question.answers.options.map((answer, index) => {
             return (
               <div key={index} className="answer-select-item checkbox">
                 <label htmlFor={this.props.question._id + '' + index}>{answer.text}</label>

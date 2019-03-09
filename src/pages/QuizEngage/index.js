@@ -4,13 +4,17 @@ import QuizEngageQuestion from "./Question";
 import {Link} from 'react-router-dom';
 import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement, resumeQuizEngagement } from "../../actions/quizEngagement";
 import { getAllErrorMessages } from "../../utils/errorMessages";
+import { differenceInMilliseconds } from "date-fns";
+import prettyMs from 'pretty-ms'
+import Navigation from 'components/Navigation'
 
 class QuizEngage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      questionIndex: 0
+      questionIndex: 0,
+      timeLeftString: ''
     }
 
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
@@ -19,9 +23,22 @@ class QuizEngage extends Component {
 
   componentWillMount () {
     this.props.setupQuizEngagement()
+    this.timeLeftInterval = setInterval(() => {
+      if (this.props.quiz.timeLimit && this.props.quizEngagement.startedAt) {
+        let timePassedMs = differenceInMilliseconds(new Date(), this.props.quizEngagement.startedAt)
+        let timeLimitMs = this.props.quiz.timeLimit * 1000 * 60
+        let timeLeftMs = Math.floor((timeLimitMs - timePassedMs) / 1000) * 1000
+        this.setState({
+          timeLeftString: timeLeftMs > 0
+            ? prettyMs(timeLeftMs)
+            : 'no time left'
+        })
+      }
+    }, 1000)
   }
 
   componentWillUnmount () {
+    clearInterval(this.timeLeftInterval)
     this.props.endQuizEngagement(this.props.quizEngagement)
   }
 
@@ -51,7 +68,7 @@ class QuizEngage extends Component {
   render() {
     if (this.props.createError || this.props.finishError) {
       return (
-        <div className="container">
+        <div className="alert-container">
           <div className="alert alert-danger">
             <h1>Error!</h1>
             <p>
@@ -64,7 +81,7 @@ class QuizEngage extends Component {
     }
     if (this.props.setupLoading || this.props.finishLoading || !this.props.quizEngagement) {
       return (
-        <div className="container">
+        <div className="alert-container">
           <div className="alert alert-info">
             <p>
               Starting quiz...
@@ -75,37 +92,41 @@ class QuizEngage extends Component {
     }
     if (this.props.quizEngagement.finished) {
       return (
-        <div className="container">
+        <div className="alert-container">
           <div className="alert alert-success">
             <h1>Quiz Submited!</h1>
-            You can now return to <Link to="/dashboard" className="alert-link">dashboard</Link>
+            <p>
+              You can now return to <Link to="/dashboard" className="alert-link">dashboard</Link>
+            </p>
           </div>
         </div>
       )
     }
     let question = this.props.questions[this.state.questionIndex]
     return (
-      <div className="container">
+      <div className="quiz-engage-container">
+        <Navigation title={this.props.quiz.name} />
         <div className="quiz">
-          <h1 className="title">{this.props.quiz.name}</h1>
-          <div className="progress">
-            {
-              this.props.questions.map((question, index) => {
-                let isActive = this.state.questionIndex === index
-                return (
-                  <button
-                    key={index}
-                    className={`item button button-small button-blue ${isActive ? '' : 'button-outline '}`}
-                    onClick={this.handleQuestionIndexChange(index)}
-                    >
-                    {index + 1}
-                  </button>
-                )
-              })
-            }
-          </div>
-          <div className="timeleft">
-            14:20
+          <div className="info">
+            <div className="progress">
+              {
+                this.props.questions.map((question, index) => {
+                  let isActive = this.state.questionIndex === index
+                  return (
+                    <button
+                      key={index}
+                      className={`item button button-small button-blue ${isActive ? '' : 'button-outline '}`}
+                      onClick={this.handleQuestionIndexChange(index)}
+                      >
+                      {index + 1}
+                    </button>
+                  )
+                })
+              }
+            </div>
+            <div className="timeleft">
+              {this.state.timeLeftString}
+            </div>
           </div>
           <QuizEngageQuestion
             question={question}
@@ -113,22 +134,22 @@ class QuizEngage extends Component {
             onAnswerChange={this.handleAnswerChange}
           />
           <div className="controls separated">
-            <div className="controls">
+            <div className="controls row">
               <button
-                className="button button-dark button-outline button-small"
+                className="button button-dark button-outline button"
                 onClick={this.handleQuestionIndexChange(this.state.questionIndex - 1)}
                 >
                 Previous
               </button>
               <button
-                className="button button-dark button-outline button-small"
+                className="button button-dark button-outline button"
                 onClick={this.handleQuestionIndexChange(this.state.questionIndex + 1)}
                 >
                 Next
               </button>
             </div>
             <div className="controls">
-              <button className="button button-danger button-small" onClick={this.handleFinishQuizEngagement}>End Quiz</button>
+              <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
             </div>
           </div>
         </div>

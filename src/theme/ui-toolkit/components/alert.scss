@@ -24,6 +24,32 @@
   }
 }
 
+.alert-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: stretch;
+  flex-direction: column;
+
+  .alert {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 660px) {
+    justify-content: space-around;
+    .alert {
+      width: 80%;
+      margin: 0 auto;
+      height: unset;
+    }
+  }
+
+}
+
 .alert {
   padding: 1.2rem;
   border-style: solid;

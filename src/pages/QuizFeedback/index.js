@@ -1,9 +1,9 @@
-import React, { Component } from "react"
+import React, { Component, Fragment } from "react"
 import { connect } from "react-redux";
-import { format } from "date-fns";
 import { retrieveQuizEngagement } from "actions/quizEngagement"
 import { retrieveQuiz } from "actions/quiz"
 import QuizFeedbackQuestion from "./Question";
+import Navigation from 'components/Navigation'
 
 class QuizFeedback extends Component {
   constructor (props) {
@@ -29,6 +29,11 @@ class QuizFeedback extends Component {
   }
 
   render() {
+    let navTitle = (
+      <span>
+        Quiz Feedback: <strong>{this.props.quiz.name}</strong>
+      </span>
+    )
     if (!this.state.requestedFetch || !this.props.loaded) {
       return (
         <span>Loading...</span>
@@ -39,57 +44,54 @@ class QuizFeedback extends Component {
     let answerMark = this.props.quizEngagement.answersMarks[question._id]
     let answerFeedback = this.props.quizEngagement.answersFeedbacks[question._id]
     return (
-      <div className="container">
-        <h1>
-          Quiz Feedback <br/>
-          <small>{format(this.props.quizEngagement.startedAt, "[on] DD MMM YYYY [at] HH:mm")}</small>
-        </h1>
-
-        <div className="quiz feedback">
-          <h1 className="title">{this.props.quiz.name}</h1>
-          <div className="progress">
-            {
-              this.props.questions.map((question, index) => {
-                let isActive = this.state.questionIndex === index
-                return (
-                  <button
-                    key={index}
-                    className={`item button button-small button-blue ${isActive ? '' : 'button-outline '}`}
-                    onClick={this.handleQuestionIndexChange(index)}
-                    >
-                    {index + 1}
-                  </button>
-                )
-              })
-            }
-          </div>
-          <QuizFeedbackQuestion
-            question={question}
-            answerFeedback={answerFeedback}
-            answerGiven={answerGiven}
-            answerMark={answerMark}
-          />
-          <div className="controls separated">
-            <div className="controls">
-              <button
-                className="button button-dark button-outline button-small"
-                onClick={this.handleQuestionIndexChange(this.state.questionIndex - 1)}
-                >
-                Previous
-              </button>
-              <button
-                className="button button-dark button-outline button-small"
-                onClick={this.handleQuestionIndexChange(this.state.questionIndex + 1)}
-                >
-                Next
-              </button>
+      <Fragment>
+        <Navigation leftBackTo={`/quiz/${this.props.quiz._id}/engagements`} title={navTitle} />
+        <div className="container">
+          <div className="quiz feedback">
+            <div className="progress">
+              {
+                this.props.questions.map((question, index) => {
+                  let isActive = this.state.questionIndex === index
+                  return (
+                    <button
+                      key={index}
+                      className={`item button button-small button-blue ${isActive ? '' : 'button-outline '}`}
+                      onClick={this.handleQuestionIndexChange(index)}
+                      >
+                      {index + 1}
+                    </button>
+                  )
+                })
+              }
             </div>
-            <div className="controls">
-              <button className="button button-danger button-small" onClick={this.handleFinishQuizEngagement}>Exit</button>
+            <QuizFeedbackQuestion
+              question={question}
+              answerFeedback={answerFeedback}
+              answerGiven={answerGiven}
+              answerMark={answerMark}
+            />
+            <div className="controls separated">
+              <div className="controls row">
+                <button
+                  className="button button-dark button-outline button"
+                  onClick={this.handleQuestionIndexChange(this.state.questionIndex - 1)}
+                  >
+                  Previous
+                </button>
+                <button
+                  className="button button-dark button-outline button"
+                  onClick={this.handleQuestionIndexChange(this.state.questionIndex + 1)}
+                  >
+                  Next
+                </button>
+              </div>
+              <div className="controls">
+                <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
