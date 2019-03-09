@@ -8,7 +8,7 @@ const quizessEntities = (state = DEFAULT_STATE, action) => {
       let quizess = action.payload.quizess.map(function (quiz) {
         return {
           ...quiz,
-          questions: quiz.questions.map(question => question._id || question)
+          questions: quiz.questions ? quiz.questions.map(question => question._id || question) : []
         }
       })
       return {
