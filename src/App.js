@@ -8,45 +8,58 @@ import QuizPreview from './pages/QuizPreview';
 import QuizEngage from './pages/QuizEngage';
 import QuizEngagements from './pages/QuizEngagements';
 import QuizFeedback from './pages/QuizFeedback';
+import axios from 'axios'
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import NetworkWatcher from './components/NetworkWatcher'
+import NotificationsManager from './components/NotificationsManager'
 import { Provider } from 'react-redux'
 import PrivateRoute from './components/PrivateRoute'
-import store from './store'
 import {loadQuizApp} from 'actions/quizApp'
+import { PersistGate } from 'redux-persist/integration/react'
 
 class App extends Component {
+  constructor () {
+    super()
+    this.handleOnBeforeLift = this.handleOnBeforeLift.bind(this)
+  }
   componentWillMount () {
-    store.dispatch(loadQuizApp())
+    this.props.store.dispatch(loadQuizApp())
+  }
+  handleOnBeforeLift () {
+    // set requests auth token
+    axios.defaults.headers.common['authtoken'] = this.props.store.getState().authentication.token
   }
   render() {
-    if (store.getState().loading.QUIZ_APPS_RETRIEVE)
+    if (this.props.store.getState().loading.QUIZ_APPS_RETRIEVE)
     return (
       <div>Loading</div>
     )
     return (
-      <Provider store={store}>
-        <Router>
-          <div>
-            <Route title="Home" exact path="/" component={Home} />
-            <Route title="Login" path="/login" component={Login} />
-            <Route title="Register" path="/register" component={Register} />
+      <Provider store={this.props.store}>
+        <PersistGate persistor={this.props.persistor} onBeforeLift={this.handleOnBeforeLift}>
+          <Router>
+            <div>
+              <Route title="Home" exact path="/" component={Home} />
+              <Route title="Login" path="/login" component={Login} />
+              <Route title="Register" path="/register" component={Register} />
 
-            {/* ProtectedRoutes */}
-            <NetworkWatcher />
-            <PrivateRoute title="Dashboard" path="/dashboard" component={Dashboard} />
-            <PrivateRoute title="Profile" path="/profile" component={Profile} />
+              {/* ProtectedRoutes */}
+              <NetworkWatcher />
+              <NotificationsManager />
+              <PrivateRoute title="Dashboard" path="/dashboard" component={Dashboard} />
+              <PrivateRoute title="Profile" path="/profile" component={Profile} />
 
-            <PrivateRoute title="Quiz Preview" exact path="/quiz/:quizId" component={QuizPreview} />
-            <PrivateRoute title="Quiz Engagements" exact path="/quiz/:quizId/engagements" component={QuizEngagements} />
-            <PrivateRoute title="Quiz Feedback" path="/quiz/:quizId/feedback/:quizEngagementId" component={QuizFeedback} />
-            <Switch>
-              <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage/:quizEngagementId" component={QuizEngage} />
-              <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage" component={QuizEngage} />
-            </Switch>
-          </div>
-        </Router>
+              <PrivateRoute title="Quiz Preview" exact path="/quiz/:quizId" component={QuizPreview} />
+              <PrivateRoute title="Quiz Engagements" exact path="/quiz/:quizId/engagements" component={QuizEngagements} />
+              <PrivateRoute title="Quiz Feedback" path="/quiz/:quizId/feedback/:quizEngagementId" component={QuizFeedback} />
+              <Switch>
+                <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage/:quizEngagementId" component={QuizEngage} />
+                <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage" component={QuizEngage} />
+              </Switch>
+            </div>
+          </Router>
+        </PersistGate>
       </Provider>
     )
   }
