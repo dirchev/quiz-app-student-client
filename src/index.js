@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import './theme/index.scss'
 import * as serviceWorker from './serviceWorker'
-
+import createStore from './createStore'
 import axios from 'axios'
+import { addNotification } from './actions/notifications';
 
 // load logged in user
 let token = window.localStorage.getItem('QuizAppToken')
@@ -14,32 +15,24 @@ if (token) {
   axios.defaults.headers.common['QuizAppToken'] = token
 }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.register()
+let {store, persistor} = createStore()
 
-window.colors = [
-  'red',
-  'pink',
-  'purple',
-  'deepPurple',
-  'indigo',
-  'blue',
-  'lightBlue',
-  'cyan',
-  'teal',
-  'green',
-  'lightGreen',
-  'lime',
-  'yellow',
-  'amber',
-  'orange',
-  'deepOrange',
-  'brown',
-  'grey',
-  'blueGrey'
-]
+serviceWorker.register({
+  onSuccess: function () {
+    store.dispatch(addNotification({
+      notification: {
+        type: 'serviceWorkerRegistered'
+      }
+    }))
+  },
+  onUpdate: function () {
+    store.dispatch(addNotification({
+      notification: {
+        type: 'newVersion'
+      }
+    }))
+  }
+})
 
 const rootElement = document.getElementById("root")
-ReactDOM.render(<App />, rootElement)
+ReactDOM.render(<App store={store} persistor={persistor}/>, rootElement)
