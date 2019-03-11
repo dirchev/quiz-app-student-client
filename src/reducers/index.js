@@ -9,6 +9,7 @@ import successReducer from './success';
 import quizEngagementReducer from './quizEngagement';
 import globalReducer from './global'
 import requestHistoryReducer from './requestHistory'
+import notificationsReducer from './notifications'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   success: successReducer,
   global: globalReducer,
   requestHistory: requestHistoryReducer,
+  notifications: notificationsReducer
 })

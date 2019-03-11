@@ -1,0 +1,40 @@
+@mixin notification-coloring ($palette) {
+  color: color-yiq(map-get($palette, 100));
+  background-color: map-get($palette, 100);
+  border-color: map-get($palette, 500);
+}
+
+.notifications {
+  position: fixed;
+  bottom: 2vh;
+  left: 0;
+  right: 0;
+
+
+  .notification {
+    border: solid 1px map-get($grey, 400);
+    margin: 0 auto;
+    width: 90vw;
+    padding: 1em;
+    font-size: .8rem;
+
+    .notification-title {
+      margin: .2em .5rem;
+      font-size: 1.3em;
+      font-weight: bold;
+      font-family: 'Karla', serif;
+    }
+    .notification-text {
+      margin: .1em .5rem;
+      padding: 0;
+    }
+    @each $color, $palette in $colorPalettes {
+      &.notification-#{$color} {
+        @include notification-coloring($palette);
+        .button-notification {
+          @include button-coloring($palette);
+        }
+      }
+    }
+  }
+}
