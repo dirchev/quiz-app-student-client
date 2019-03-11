@@ -18,6 +18,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION__) {
   store = createStore(
     reducer,
     compose(
+      persistState(),
       applyMiddleware(thunk)
     )
   )
