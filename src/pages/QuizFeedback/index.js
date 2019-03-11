@@ -4,6 +4,7 @@ import { retrieveQuizEngagement } from "actions/quizEngagement"
 import { retrieveQuiz } from "actions/quiz"
 import QuizFeedbackQuestion from "./Question";
 import Navigation from 'components/Navigation'
+import Swipable from "../../components/Swipable";
 
 class QuizFeedback extends Component {
   constructor (props) {
@@ -13,6 +14,7 @@ class QuizFeedback extends Component {
       questionIndex: 0,
       requestedFetch: false
     }
+    this.changeQuestionIndex = this.changeQuestionIndex.bind(this)
   }
 
   componentDidMount () {
@@ -23,9 +25,13 @@ class QuizFeedback extends Component {
   handleQuestionIndexChange (questionIndex) {
     return (event) => {
       event.preventDefault()
-      if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
-      this.setState({questionIndex})
+      this.changeQuestionIndex(questionIndex)
     }
+  }
+
+  changeQuestionIndex (questionIndex) {
+    if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
+    this.setState({questionIndex})
   }
 
   render() {
@@ -46,8 +52,8 @@ class QuizFeedback extends Component {
     return (
       <Fragment>
         <Navigation leftBackTo={`/quiz/${this.props.quiz._id}/engagements`} title={navTitle} />
-        <div className="container">
-          <div className="quiz feedback">
+        <div className="quiz feedback">
+          <div className="info">
             <div className="progress">
               {
                 this.props.questions.map((question, index) => {
@@ -64,29 +70,26 @@ class QuizFeedback extends Component {
                 })
               }
             </div>
-            <QuizFeedbackQuestion
-              question={question}
-              answerFeedback={answerFeedback}
-              answerGiven={answerGiven}
-              answerMark={answerMark}
-            />
-            <div className="controls separated">
-              <div className="controls row">
-                <button
-                  className="button button-dark button-outline button"
-                  onClick={this.handleQuestionIndexChange(this.state.questionIndex - 1)}
-                  >
-                  Previous
-                </button>
-                <button
-                  className="button button-dark button-outline button"
-                  onClick={this.handleQuestionIndexChange(this.state.questionIndex + 1)}
-                  >
-                  Next
-                </button>
-              </div>
-            </div>
           </div>
+          <Swipable
+            className="questions"
+            selectedChildIndex={this.state.questionIndex}
+            onSelectedChildIndexChange={this.changeQuestionIndex}
+            >
+          {
+              this.props.questions.map((question) => {
+                return (
+                  <QuizFeedbackQuestion
+                    key={question._id}
+                    question={question}
+                    answerFeedback={answerFeedback}
+                    answerGiven={answerGiven}
+                    answerMark={answerMark}
+                  />
+                )
+              })
+            }
+          </Swipable>
         </div>
       </Fragment>
     )

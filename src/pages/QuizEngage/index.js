@@ -7,6 +7,7 @@ import { getAllErrorMessages } from "../../utils/errorMessages";
 import { differenceInMilliseconds } from "date-fns";
 import prettyMs from 'pretty-ms'
 import Navigation from 'components/Navigation'
+import Swipable from "../../components/Swipable";
 
 class QuizEngage extends Component {
   constructor (props) {
@@ -18,6 +19,7 @@ class QuizEngage extends Component {
     }
 
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
+    this.changeQuestionIndex = this.changeQuestionIndex.bind(this)
     this.handleFinishQuizEngagement = this.handleFinishQuizEngagement.bind(this)
   }
 
@@ -45,9 +47,13 @@ class QuizEngage extends Component {
   handleQuestionIndexChange (questionIndex) {
     return (event) => {
       event.preventDefault()
-      if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
-      this.setState({questionIndex})
+      this.changeQuestionIndex(questionIndex)
     }
+  }
+
+  changeQuestionIndex (questionIndex) {
+    if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
+    this.setState({questionIndex})
   }
 
   handleAnswerChange (questionId, answer) {
@@ -102,7 +108,6 @@ class QuizEngage extends Component {
         </div>
       )
     }
-    let question = this.props.questions[this.state.questionIndex]
     return (
       <div className="quiz-engage-container">
         <Navigation title={this.props.quiz.name} />
@@ -128,29 +133,26 @@ class QuizEngage extends Component {
               {this.state.timeLeftString}
             </div>
           </div>
-          <QuizEngageQuestion
-            question={question}
-            quizEngagement={this.props.quizEngagement}
-            onAnswerChange={this.handleAnswerChange}
-          />
-          <div className="controls separated">
-            <div className="controls row">
-              <button
-                className="button button-dark button-outline button"
-                onClick={this.handleQuestionIndexChange(this.state.questionIndex - 1)}
-                >
-                Previous
-              </button>
-              <button
-                className="button button-dark button-outline button"
-                onClick={this.handleQuestionIndexChange(this.state.questionIndex + 1)}
-                >
-                Next
-              </button>
-            </div>
-            <div className="controls">
-              <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
-            </div>
+          <Swipable
+            className="questions"
+            selectedChildIndex={this.state.questionIndex}
+            onSelectedChildIndexChange={this.changeQuestionIndex}
+            >
+            {
+              this.props.questions.map((question, index) => {
+                return (
+                  <QuizEngageQuestion
+                    key={question._id}
+                    question={question}
+                    quizEngagement={this.props.quizEngagement}
+                    onAnswerChange={this.handleAnswerChange}
+                  />
+                )
+              })
+            }
+          </Swipable>
+          <div className="controls">
+            <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
           </div>
         </div>
       </div>
