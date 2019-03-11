@@ -11,21 +11,14 @@
 }
 
 .quiz {
-  margin: 1em;
-  display: flex;
+  margin: 1em 0;
   min-height: 100%;
   flex-direction: column;
-  & > .title {
-    margin: 0 0 1em;
-    grid-area: title;
-    font-size: 1.4rem;
-    text-align: center;
-  }
 
   .info {
+    padding: 0 5vw;
     display: flex;
     align-items: center;
-    margin-bottom: .4em;
     .progress {
       grid-area: progress;
       display: flex;
@@ -75,18 +68,21 @@
     }
   }
 
-  .controls {
-    grid-area: controls;
+  > .controls {
+    padding: 0 5vw;
   }
 
   .question, .question-feedback {
-    margin: 0 0 .3em;
+
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    grid-area: question;
     border: solid 1px map-get($grey, 300);
     box-shadow: 1px 1px 10px 1px #00000044;
+
+    @media screen and (min-width: 660px) {
+      margin: 0 5vw 1em;
+    }
 
     .title {
       margin: .5rem 1rem;
