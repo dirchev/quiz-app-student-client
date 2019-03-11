@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { watch, check } from "is-offline"
 import { setVar } from 'actions/global'
-import { hydrateState } from "../actions/hydrate";
 
 class NetworkWatcher extends Component {
   componentWillMount () {
@@ -32,9 +31,6 @@ const mapDispatchToProps = function (dispatch) {
         key: 'isOffline',
         value: isOffline
       }))
-      // if (!isOffline) {
-      //   dispatch(hydrateState())
-      // }
     }
   }
 }
