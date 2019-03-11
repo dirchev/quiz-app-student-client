@@ -54,6 +54,7 @@ export let finishQuizEngagement = ({quizEngagement}) => async dispatch => {
   dispatch({
     type: 'QUIZ_ENGAGEMENT_FINISH_REQUEST',
   })
+  syncQuizEngagementDebounced.flush()
   try {
     let {data} = await axios.post(quizEngagementEndpoint.finish({quizId: quizEngagement.quiz, quizEngagementId: quizEngagement._id}), {quizEngagement})
     dispatch({ type: 'QUIZ_ENGAGEMENT_FINISH_SUCCESS', payload: {quizEngagement: data} })
@@ -63,7 +64,9 @@ export let finishQuizEngagement = ({quizEngagement}) => async dispatch => {
   }
 }
 
-export let listQuizEngagements = ({quizId}) => async dispatch => {
+export let listQuizEngagements = ({quizId}) => async (dispatch, getState) => {
+  // do not repeat request that had happened less than 10 seconds ago
+  if (Date.now() - getState().requestHistory['QUIZ_ENGAGEMENT_LIST'] < 10000) return
   dispatch({
     type: 'QUIZ_ENGAGEMENT_LIST_REQUEST',
   })

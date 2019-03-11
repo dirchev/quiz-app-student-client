@@ -8,6 +8,7 @@ import errorReducer from './error';
 import successReducer from './success';
 import quizEngagementReducer from './quizEngagement';
 import globalReducer from './global'
+import requestHistoryReducer from './requestHistory'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   loading: loadingReducer,
   error: errorReducer,
   success: successReducer,
-  global: globalReducer
+  global: globalReducer,
+  requestHistory: requestHistoryReducer,
 })

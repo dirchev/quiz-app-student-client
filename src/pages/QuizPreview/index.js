@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react"
 import Navigation from "components/Navigation";
 import { connect } from "react-redux";
-import { prepareQuiz } from 'actions/quiz'
+import { prepareQuiz, retrieveQuiz } from 'actions/quiz'
 import QuizActions from "./QuizActions";
 import QuizDetails from "./QuizDetails";
 import './index.scss'
@@ -10,7 +10,11 @@ import { listQuizEngagements } from "../../actions/quizEngagement";
 
 class QuizPreview extends Component {
   componentWillMount () {
-    this.props.prepareQuiz()
+    if (this.props.quiz.marksReleased) {
+      this.props.retrieveQuiz()
+    } else {
+      this.props.prepareQuiz()
+    }
     this.props.getQuizEngagements()
   }
 
@@ -45,6 +49,7 @@ let mapDispatchToProps = (dispatch, props) => {
   let quizId = props.match.params.quizId
   return {
     prepareQuiz: () => dispatch(prepareQuiz({quizId})),
+    retrieveQuiz: () => dispatch(retrieveQuiz({quizId})),
     getQuizEngagements: () => dispatch(listQuizEngagements({quizId}))
   }
 }

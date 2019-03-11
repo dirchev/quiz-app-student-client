@@ -17,6 +17,8 @@ export let loadQuizess = () => async (dispatch, getState) => {
 }
 
 export let prepareQuiz = ({quizId}) => async (dispatch, getState) => {
+  // do not repeat request that had happened less than 1 minute ago
+  if (Date.now() - getState().requestHistory['QUIZ_PREPARE'] < 60000) return
   dispatch({
     type: 'QUIZ_PREPARE_REQUEST',
   })
@@ -41,13 +43,11 @@ export let prepareQuiz = ({quizId}) => async (dispatch, getState) => {
 }
 
 export let retrieveQuiz = ({quizId}) => async (dispatch, getState) => {
+  if (Date.now() - getState().requestHistory['QUIZ_RETRIEVE'] < 60000) return
   dispatch({
     type: 'QUIZ_RETRIEVE_REQUEST',
   })
   let isOffline = getState().global.isOffline
-  let quiz = getState().entities.quizess[quizId]
-  quiz.questions = (quiz.questions || []).map((_id) => getState().entities.questions[_id])
-  if (quiz.questions) return dispatch({ type: 'QUIZ_RETRIEVE_SUCCESS', payload: {quiz: quiz, quizId} })
   if (isOffline) {
     let errorData = {
       name: "ClientError",

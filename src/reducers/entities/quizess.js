@@ -5,15 +5,9 @@ const DEFAULT_STATE = {}
 const quizessEntities = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'QUIZ_LIST_SUCCESS':
-      let quizess = action.payload.quizess.map(function (quiz) {
-        return {
-          ...quiz,
-          questions: quiz.questions ? quiz.questions.map(question => question._id || question) : []
-        }
-      })
       return {
         ...state,
-        ...arrayToEntities(quizess, state)
+        ...arrayToEntities(action.payload.quizess, state)
       }
     case 'QUIZ_RETRIEVE_SUCCESS':
       return {

@@ -85,9 +85,6 @@ class QuizFeedback extends Component {
                   Next
                 </button>
               </div>
-              <div className="controls">
-                <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
-              </div>
             </div>
           </div>
         </div>

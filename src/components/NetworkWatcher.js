@@ -32,9 +32,9 @@ const mapDispatchToProps = function (dispatch) {
         key: 'isOffline',
         value: isOffline
       }))
-      if (!isOffline) {
-        dispatch(hydrateState())
-      }
+      // if (!isOffline) {
+      //   dispatch(hydrateState())
+      // }
     }
   }
 }

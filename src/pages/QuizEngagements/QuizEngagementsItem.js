@@ -30,7 +30,7 @@ class QuizEngagementsItem extends Component {
           {
             this.getStats().map(statsItem => {
               return (
-                <div className="stats-item">
+                <div key={statsItem.name} className="stats-item">
                   <div className="name">{statsItem.name}</div>
                   <div className="value">
                     {statsItem.value}

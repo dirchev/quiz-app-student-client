@@ -3,5 +3,7 @@ import { loadQuizess } from "./quiz";
 
 export let hydrateState = () => async (dispatch, getState) => {
   dispatch(loadQuizApp())
-  dispatch(loadQuizess())
+  if (getState()) {
+    dispatch(loadQuizess())
+  }
 }
