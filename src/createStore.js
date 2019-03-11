@@ -9,6 +9,7 @@ export default () => {
   const persistConfig = {
     key: 'quiz-app',
     storage,
+    blacklist: ['notifications']
   }
 
   let store = createStore(
