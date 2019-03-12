@@ -7,6 +7,7 @@ class MultilineText extends Component {
     })
   }
   render() {
+    if (this.props.text) return null
     return (
       <Fragment>
         {
@@ -29,6 +30,10 @@ class MultilineText extends Component {
       </Fragment>
     )
   }
+}
+
+MultilineText.defaultProps = {
+  text: ''
 }
 
 export default MultilineText
