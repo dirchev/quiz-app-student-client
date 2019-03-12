@@ -7,7 +7,6 @@ class MultilineText extends Component {
     })
   }
   render() {
-    if (this.props.text) return null
     return (
       <Fragment>
         {
