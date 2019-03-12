@@ -45,10 +45,6 @@ class QuizFeedback extends Component {
         <span>Loading...</span>
       )
     }
-    let question = this.props.questions[this.state.questionIndex]
-    let answerGiven = this.props.quizEngagement.answersGiven[question._id]
-    let answerMark = this.props.quizEngagement.answersMarks[question._id]
-    let answerFeedback = this.props.quizEngagement.answersFeedbacks[question._id]
     return (
       <Fragment>
         <Navigation leftBackTo={`/quiz/${this.props.quiz._id}/engagements`} title={navTitle} />
@@ -78,6 +74,9 @@ class QuizFeedback extends Component {
             >
           {
               this.props.questions.map((question) => {
+                let answerGiven = this.props.quizEngagement.answersGiven[question._id]
+                let answerMark = this.props.quizEngagement.answersMarks[question._id]
+                let answerFeedback = this.props.quizEngagement.answersFeedbacks[question._id]
                 return (
                   <QuizFeedbackQuestion
                     key={question._id}

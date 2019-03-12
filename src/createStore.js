@@ -16,7 +16,7 @@ export default () => {
     persistReducer(persistConfig, rootReducer),
     compose(
       applyMiddleware(thunk),
-      // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
   )
   let persistor = persistStore(store)

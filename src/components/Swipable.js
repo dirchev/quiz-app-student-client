@@ -27,7 +27,10 @@ class Swipable extends Component {
     if (this.state.locked) {
       // if the x0 was recorded
       let dx = event.clientX - this.state.x0
-      let s = Math.sign(dx) // s is -1 or 1
+      let s = 0
+      if (Math.abs(dx) > this.containerRef.current.clientWidth / 2 / this.props.children.length) {
+        s = Math.sign(dx) // s is -1 or 1
+      }
 
       this.props.onSelectedChildIndexChange(this.props.selectedChildIndex - s)
       this.setState({x0: null, dragX: 0, locked: false})
@@ -35,7 +38,6 @@ class Swipable extends Component {
   }
 
   move (e) {
-    // e.preventDefault()
     let event = e.changedTouches ? e.changedTouches[0] : e
     if (this.state.locked) {
       this.setState({dragX: Math.round(event.clientX - this.state.x0)})
