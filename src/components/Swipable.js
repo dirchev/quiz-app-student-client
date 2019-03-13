@@ -28,7 +28,7 @@ class Swipable extends Component {
       // if the x0 was recorded
       let dx = event.clientX - this.state.x0
       let s = 0
-      if (Math.abs(dx) > this.containerRef.current.clientWidth / 2 / this.props.children.length) {
+      if (Math.abs(dx) > this.containerRef.current.clientWidth / 3 / this.props.children.length) {
         s = Math.sign(dx) // s is -1 or 1
       }
 
