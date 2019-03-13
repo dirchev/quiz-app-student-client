@@ -1,8 +1,18 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
+import logout from "actions/logout";
 
 class Navigation extends Component {
+  constructor () {
+    super()
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+
+  handleLogout (e) {
+    e.preventDefault()
+    this.props.logoutUser()
+  }
   render() {
     return (
       <div className="navbar navbar-primary">
@@ -28,6 +38,11 @@ class Navigation extends Component {
               )
           }
         </div>
+        <div className="right logout">
+            <button onClick={this.handleLogout} className="button button-small button-outline">
+              logout
+          </button>
+          </div>
       </div>
     )
   }
@@ -40,8 +55,8 @@ const mapStateToProps = function (state) {
 }
 const mapDispatchToProps = function (dispatch, { history }) {
   return {
-    navigateBack: () => {
-      history.goBack()
+    logoutUser: () => {
+      dispatch(logout({history}))
     }
   }
 }

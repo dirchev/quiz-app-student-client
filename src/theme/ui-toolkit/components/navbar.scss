@@ -21,16 +21,10 @@
   justify-content: space-between;
   align-items: center;
 
-  .left {
-    text-align: left;
-
-    &.back > a.button {
-      color: white;
-    }
-  }
-
-  .right {
-    text-align: right;
+  .button {
+    color: white;
+    border: inherit;
+    background: inherit;
   }
 
   .center {

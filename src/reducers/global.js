@@ -1,6 +1,6 @@
 import { omit } from 'lodash'
 const DEFAULT_STATE = {
-  isOffline: true
+  isOffline: false
 }
 const globalReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {

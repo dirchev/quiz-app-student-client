@@ -12,6 +12,8 @@ const authentication = (state = DEFAULT_STATE, action) => {
         token: action.payload.token,
         loggedIn: true,
       }
+    case 'LOGOUT_SUCCESS':
+      return DEFAULT_STATE
     default:
       return state
   }
