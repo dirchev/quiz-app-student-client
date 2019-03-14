@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { watch, check } from "is-offline"
 import { setVar } from 'actions/global'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 class NetworkWatcher extends Component {
   componentWillMount () {
@@ -14,7 +16,10 @@ class NetworkWatcher extends Component {
   render() {
     if (!this.props.isOffline) return null
     return (
-      <div className="offline-message">You are offline</div>
+      <div className="offline-message">
+        <span>You are offline!</span>&nbsp;
+        <FontAwesomeIcon icon={faTimesCircle} />
+      </div>
     )
   }
 }

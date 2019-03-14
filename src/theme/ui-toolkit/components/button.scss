@@ -68,6 +68,17 @@
     box-shadow: none;
   }
 
+  &.button-with-icon {
+    display: flex;
+
+    .icon {
+      flex: 0;
+    }
+    .content {
+      flex: 1;
+    }
+  }
+
   @each $color, $palette in $colorPalettes {
     &.button-#{$color} {
       @include button-coloring($palette)

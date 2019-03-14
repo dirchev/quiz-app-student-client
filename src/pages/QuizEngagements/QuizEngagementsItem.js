@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { format, differenceInMilliseconds } from "date-fns";
 import { Link } from 'react-router-dom'
 import prettyMs from 'pretty-ms'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
 
 class QuizEngagementsItem extends Component {
   getMarkString () {
@@ -46,8 +48,9 @@ class QuizEngagementsItem extends Component {
             ? (
               <Link
                 to={`/quiz/${this.props.quiz._id}/feedback/${quizEngagement._id}`}
-                className="button button-small button-success">
-                View Feedback
+                className="button button-small button-success button-with-icon">
+                <span className="icon"><FontAwesomeIcon icon={faComment}/></span>
+                <span className="content">View Feedback</span>
               </Link>
             )
             : null

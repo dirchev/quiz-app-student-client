@@ -1,7 +1,10 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import logout from "actions/logout";
+import logout from "actions/logout"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 class Navigation extends Component {
   constructor () {
@@ -21,7 +24,7 @@ class Navigation extends Component {
             ? (
               <div className="left back">
                 <Link to={this.props.leftBackTo} className="button button-small button-outline">
-                  &lt;
+                  <FontAwesomeIcon icon={faChevronLeft} />
               </Link>
               </div>
             )
@@ -40,8 +43,8 @@ class Navigation extends Component {
         </div>
         <div className="right logout">
             <button onClick={this.handleLogout} className="button button-small button-outline">
-              logout
-          </button>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+            </button>
           </div>
       </div>
     )

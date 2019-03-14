@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react"
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
 
 class QuizActions extends Component {
   render() {
@@ -16,7 +18,10 @@ class QuizActions extends Component {
     if (this.props.quizEngagementsLoading) return null
     if (!this.props.quiz.marksReleased) return null
     return (
-      <Link to={`/quiz/${this.props.quiz._id}/engagements`} className="button button-grey">View Previous Attempts</Link>
+      <Link to={`/quiz/${this.props.quiz._id}/engagements`} className="button button-grey button-with-icon">
+        <span className="icon"><FontAwesomeIcon icon={faListUl} /></span>
+        <span className="content">View Previous Attempts</span>
+      </Link>
     )
   }
 
