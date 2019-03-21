@@ -31,7 +31,7 @@
       margin-top: 1em;
       padding: 0 .5em 1em;
       .item {
-        border: solid 1px map-get($grey, 300);
+        border: solid 1px map-get($grey, 200);
         box-shadow: 1px 1px 10px 1px #00000044;
         display: flex;
         flex-direction: column;
@@ -43,33 +43,42 @@
           margin: 0;
           padding: .6rem .4rem .2rem;
           font-size: 1.3rem;
-        }
-        .stats {
-          border-top: solid 1px map-get($grey, 300);
           border-bottom: solid 1px map-get($grey, 300);
+        }
+
+        .stats {
           display: flex;
-          flex-wrap: wrap;
-          align-content: space-between;
+          flex-direction: column;
+          display: grid;
+          grid-column-gap: .5em;
+          padding: .3em;
+          grid-row-gap: .2em;
+          grid-template-columns: min-content auto;
+          justify-content: center;
+          align-items: center;
 
           .stats-item {
+            display: contents;
             color: map-get($grey, 800);
             text-decoration: none;
-            padding: .3em 1em;
             flex: 1;
             text-align: center;
 
             .name {
               white-space: nowrap;
-              font-size: .6rem;
+              font-size: .7rem;
+              text-align: right;
             }
 
             .value {
-              white-space: nowrap;
+              text-align: left;
+              flex-grow: 1rem;
               font-size: 1rem;
             }
           }
         }
         .controls {
+          border-top: solid 1px map-get($grey, 300);
           padding: .4rem .4rem;
         }
       }

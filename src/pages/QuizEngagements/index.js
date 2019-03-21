@@ -3,8 +3,9 @@ import Navigation from "components/Navigation";
 import { connect } from "react-redux";
 import { listQuizEngagements } from 'actions/quizEngagement'
 import { format } from "date-fns";
-import { groupBy } from 'lodash'
-import QuizEngagementsItem from "./QuizEngagementsItem";
+import { groupBy, sortBy, reverse } from 'lodash'
+import QuizEngagementsItemWithMarks from "./QuizEngagementsItemWithMarks";
+import QuizEngagementsItemSimple from "./QuizEngagementsItemSimple";
 
 class QuizEngagements extends Component {
   componentWillMount () {
@@ -12,12 +13,19 @@ class QuizEngagements extends Component {
   }
 
   getQuizEnagagementsGrouped () {
-    return groupBy(this.props.quizEngagements.filter(({marked}) => marked), (item) => {
+    let sortedQuizEngagements = sortBy(this.props.quizEngagements, [
+      (quizEngagement) => quizEngagement.finished,
+      (quizEngagement) => quizEngagement.startedAt,
+    ])
+    return groupBy(reverse(sortedQuizEngagements), (item) => {
       return format(item.startedAt, 'DD MMM YYYY')
     })
   }
 
   render() {
+    let QuizEngagementsItem = this.props.quiz.marksReleased
+      ? QuizEngagementsItemWithMarks
+      : QuizEngagementsItemSimple
     let navTitle = (
       <span>
         Quiz Attempts: <strong>{this.props.quiz.name}</strong>
@@ -56,9 +64,6 @@ let mapStateToProps = (state, props) => {
   let quizId = props.match.params.quizId
   let quiz = state.entities.quizess[quizId]
   return {
-    loading: state.loading.QUIZ_ENGAGEMENT_LIST,
-    error: state.error.QUIZ_ENGAGEMENT_LIST,
-    success: state.success.QUIZ_ENGAGEMENT_LIST,
     quiz: {
       ...quiz,
       questions: (quiz.questions || []).map(_id => state.entities.questions[_id])

@@ -7,7 +7,7 @@ import { faListUl } from "@fortawesome/free-solid-svg-icons";
 class QuizActions extends Component {
   render() {
     return (
-      <div className="controls quiz-actions row">
+      <div className="controls quiz-actions">
         {this.renderViewAttemptsButton()}
         {this.renderEngageButton()}
       </div>
@@ -15,8 +15,6 @@ class QuizActions extends Component {
   }
 
   renderViewAttemptsButton () {
-    if (this.props.quizEngagementsLoading) return null
-    if (!this.props.quiz.marksReleased) return null
     return (
       <Link to={`/quiz/${this.props.quiz._id}/engagements`} className="button button-grey button-with-icon">
         <span className="icon"><FontAwesomeIcon icon={faListUl} /></span>
@@ -26,10 +24,10 @@ class QuizActions extends Component {
   }
 
   renderEngageButton () {
-    if (this.props.quizEngagementsLoading) return (
+    if (this.props.quiz.noOfAttempts && this.props.quizEngagementsLoading) return (
       <span>Loading...</span>
     )
-    if (!this.props.quiz.quizEngagements) return null
+    if (!this.props.quiz.__meta.readyToEngage) return null
     if (this.props.quiz.marksReleased) return null
     if (this.props.quiz.noOfAttempts && this.props.quiz.quizEngagements.length >= this.props.quiz.noOfAttempts) return (
       <div className="alert alert-blue alert-small text-center">

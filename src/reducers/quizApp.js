@@ -3,7 +3,10 @@ const DEFAULT_STATE = {}
 const quizAppReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case 'QUIZ_APP_RETRIEVE_SUCCESS':
-      return action.payload.quizApp
+      return {
+        ...state,
+        ...action.payload.quizApp
+      }
       case 'QUIZ_LIST_SUCCESS':
       return {
         ...state,

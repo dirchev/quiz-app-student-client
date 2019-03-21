@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux";
 import QuizEngageQuestion from "./Question";
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement, resumeQuizEngagement } from "../../actions/quizEngagement";
 import { getAllErrorMessages } from "../../utils/errorMessages";
 import { differenceInMilliseconds } from "date-fns";
@@ -72,6 +72,11 @@ class QuizEngage extends Component {
   }
 
   render() {
+    if (this.props.shouldRedirect) {
+      return (
+        <Redirect to={`/quiz/${this.props.quiz._id}/engage/${this.props.quizEngagement._id}`}/>
+      )
+    }
     if (this.props.createError || this.props.finishError) {
       return (
         <div className="alert-container">
@@ -162,16 +167,11 @@ class QuizEngage extends Component {
 
 let mapStateToProps = (state, props) => {
   let quizId = props.match.params.quizId
-  let quizengagementId = props.match.params.quizengagementId
+  let quizEngagementId = props.match.params.quizEngagementId
+  let currentQuizEngagement = state.currentQuizEngagement ? state.entities.quizEngagements[state.currentQuizEngagement] : null
   return {
-    setupLoading: quizengagementId
-    ? state.loading.QUIZ_ENGAGEMENT_RESUME
-    : state.loading.QUIZ_ENGAGEMENT_CREATE,
-    setupError: quizengagementId
-    ? state.error.QUIZ_ENGAGEMENT_RESUME
-    : state.error.QUIZ_ENGAGEMENT_CREATE,
-    finishLoading: state.loading.QUIZ_ENGAGEMENT_FINISH,
-    finishError: state.error.QUIZ_ENGAGEMENT_FINISH,
+    shouldRedirect: !quizEngagementId && currentQuizEngagement,
+    loaded: !!quizEngagementId,
     quizId: quizId,
     quiz: state.entities.quizess[quizId],
     questions: (state.entities.quizess[quizId].questions || []).map((_id) => state.entities.questions[_id]),

@@ -4,14 +4,22 @@ import { watch, check } from "is-offline"
 import { setVar } from 'actions/global'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { hydrateState } from "actions/hydrate";
 
 class NetworkWatcher extends Component {
+  constructor () {
+    super()
+    this.handleOfflineStatusChange = this.handleOfflineStatusChange.bind(this)
+  }
   componentWillMount () {
-    check().then(this.props.setOfflineStatus)
-    this.unwatch = watch(this.props.setOfflineStatus)
+    check().then(this.handleOfflineStatusChange)
+    this.unwatch = watch(this.handleOfflineStatusChange)
   }
   componentWillUnmount () {
     this.unwatch()
+  }
+    handleOfflineStatusChange (isOffline) {
+    this.props.setOfflineStatus(isOffline)
   }
   render() {
     if (!this.props.isOffline) return null
@@ -29,14 +37,18 @@ const mapStateToProps = function (state) {
     isOffline: state.global.isOffline
   }
 }
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function (dispatch, props) {
   return {
     setOfflineStatus: (isOffline) => {
       dispatch(setVar({
         key: 'isOffline',
         value: isOffline
       }))
-    }
+      // changed from offline to online
+      if (isOffline === false) {
+        dispatch(hydrateState())
+      }
+    },
   }
 }
 

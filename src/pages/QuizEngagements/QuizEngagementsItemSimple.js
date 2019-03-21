@@ -3,30 +3,15 @@ import { format, differenceInMilliseconds } from "date-fns";
 import { Link } from 'react-router-dom'
 import prettyMs from 'pretty-ms'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
-class QuizEngagementsItem extends Component {
-  getMarkString () {
-    let totalPoints = 0
-    let receivedPoints = 0
-    this.props.quiz.questions.forEach((question) => {
-      let questionId = question._id
-      let totalPointsForQuestion = question.points || 0
-      let receivedPointsForQuestion = (this.props.quizEngagement.answersMarks || {})[questionId] || 0
-      if (!totalPointsForQuestion) return
-      totalPoints += totalPointsForQuestion
-      receivedPoints += receivedPointsForQuestion
-    })
-    return `${receivedPoints} / ${totalPoints}`
-  }
-
+class QuizEngagementsItemSimple extends Component {
   render() {
     let quizEngagement = this.props.quizEngagement
-    let markString = this.getMarkString()
     return (
       <div className="item">
         <div className="grade">
-          {markString}
+          Not Graded Attempt
         </div>
         <div className="stats">
           {
@@ -41,40 +26,36 @@ class QuizEngagementsItem extends Component {
               )
             })
           }
-        </div>
-        <div className="controls">
-        {
-            quizEngagement.marked
-            ? (
-              <Link
-                to={`/quiz/${this.props.quiz._id}/feedback/${quizEngagement._id}`}
-                className="button button-small button-success button-with-icon">
-                <span className="icon"><FontAwesomeIcon icon={faComment}/></span>
-                <span className="content">View Feedback</span>
-              </Link>
-            )
-            : null
-          }
           {
-            ! quizEngagement.finished
+            quizEngagement.__meta.startedOffline && !quizEngagement.__meta.synced
             ? (
-              <Link to={`/quiz/${quizEngagement.quiz}/engage/${quizEngagement._id}`} className="button button-small button-primary">Resume Quiz</Link>
+              <div className="stats-item">
+                <div className="name">
+                  <span className="icon icon-red"><FontAwesomeIcon icon={faExclamationTriangle} /></span>
+                </div>
+                <div className="value">
+                  This attempt will be synced when you are back online.
+                </div>
+              </div>
             ) : null
           }
         </div>
+        {
+          !quizEngagement.finished
+            ? (
+              <div className="controls">
+                <Link to={`/quiz/${quizEngagement.quiz}/engage/${quizEngagement._id}`} className="button button-small button-primary">Resume Quiz</Link>
+              </div>
+            ) : null
+        }
       </div>
     )
   }
 
-  getStats () {
+  getStats() {
     let quiz = this.props.quiz
     let quizEngagement = this.props.quizEngagement
-    let stats = [
-      {
-        name: 'Marked',
-        value: quizEngagement.marked ? 'Yes' : 'No'
-      }
-    ]
+    let stats = []
     stats.push({
       name: 'Started At',
       value: format(quizEngagement.startedAt, 'Do MMMM YYYY HH:mm')
@@ -88,7 +69,7 @@ class QuizEngagementsItem extends Component {
         name: 'Time Elapsed',
         value: prettyMs(differenceInMilliseconds(quizEngagement.finishedAt, quizEngagement.startedAt))
       })
-    } else {
+    } else if (quiz.timeLimit) {
       let timePassedMs = differenceInMilliseconds(new Date(), quizEngagement.startedAt)
       let timeLimitMs = quiz.timeLimit * 1000 * 60
       let timeLeftMs = Math.floor((timeLimitMs - timePassedMs) / 1000) * 1000
@@ -97,15 +78,9 @@ class QuizEngagementsItem extends Component {
         value: prettyMs(timeLeftMs)
       })
     }
-    stats.push({
-      name: 'Mark',
-      value: quizEngagement.marked
-        ? this.getMarkString(quizEngagement)
-        : 'Not Marked'
-    })
 
     return stats
   }
 }
 
-export default QuizEngagementsItem
+export default QuizEngagementsItemSimple

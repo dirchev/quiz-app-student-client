@@ -12,10 +12,10 @@ class QuizPreview extends Component {
   componentWillMount () {
     if (this.props.quiz.marksReleased) {
       this.props.retrieveQuiz()
+      this.props.getQuizEngagements()
     } else {
       this.props.prepareQuiz()
     }
-    this.props.getQuizEngagements()
   }
 
   render() {

@@ -1,0 +1,29 @@
+@mixin icon-coloring ($palette) {
+  color: map-get($palette, 700);
+
+  &.icon-outline {
+    background: none;
+    border: solid 1px map-get($palette, 700);
+    color: map-get($palette, 700);
+  }
+}
+
+.icon {
+  display: inline-block;
+  font-size: 1em;
+  padding: 0 .5em;
+
+  &.icon-small {
+    font-size: .9em;
+  }
+
+  &.icon-large {
+    font-size: 1.3em;
+  }
+
+  @each $color, $palette in $colorPalettes {
+    &.icon-#{$color} {
+      @include icon-coloring($palette)
+    }
+  }
+}
