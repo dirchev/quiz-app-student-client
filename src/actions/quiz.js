@@ -17,13 +17,13 @@ export let loadQuizess = () => async (dispatch, getState) => {
 }
 
 export let prepareQuiz = ({quizId}) => async (dispatch, getState) => {
-  // do not repeat request that had happened less than 1 minute ago
-  if (Date.now() - getState().requestHistory['QUIZ_PREPARE'] < 60000) return
+  let quiz = getState().entities.quizess[quizId]
+  if (quiz && quiz.__meta.readyToEngage) return
   dispatch({
     type: 'QUIZ_PREPARE_REQUEST',
+    payload: {quizId}
   })
   let isOffline = getState().global.isOffline
-  let quiz = getState().entities.quizess[quizId]
   if (quiz.questions) return dispatch({ type: 'QUIZ_PREPARE_SUCCESS', payload: {questions: quiz.questions, quizId} })
   if (isOffline) {
     let errorData = {
