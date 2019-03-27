@@ -13,7 +13,7 @@ class MultipleChoiceQuestionMultipleCorrect extends Component {
         <div className="answer-item">
           <div className="label">Mark</div>
           <p>
-            {this.props.answerMark || 'N/A'} / {this.props.question.points}
+            {isNaN(this.props.answerMark) ? 'N/A' : this.props.answerMark} / {this.props.question.points}
           </p>
         </div>
         <div className="answer-item">
@@ -23,8 +23,8 @@ class MultipleChoiceQuestionMultipleCorrect extends Component {
             ? (
               <ul>
               {
-                this.getAnswerGivenText().map(answer => {
-                  return <li key={answer}>{answer}</li>
+                this.getAnswerGivenText().map((answer, index) => {
+                  return <li key={index}>{answer}</li>
                 })
               }
               </ul>
@@ -38,7 +38,7 @@ class MultipleChoiceQuestionMultipleCorrect extends Component {
             {
               this.props.question.answers.options.map((answer, index) => {
                 return (
-                  <li className={`${answer.isCorrect ? 'correct': 'incorrect'}`}key={answer._id}>{answer.text}</li>
+                  <li className={`${answer.isCorrect ? 'correct': 'incorrect'}`} key={answer._id}>{answer.text}</li>
                 )
               })
             }

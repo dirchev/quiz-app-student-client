@@ -8,7 +8,7 @@ class FreeLongText extends Component {
         <div className="answer-item">
           <div className="label">Mark</div>
           <p>
-            {this.props.answerMark || 'N/A'} / {this.props.question.points}
+            {isNaN(this.props.answerMark) ? 'N/A' : this.props.answerMark} / {this.props.question.points}
           </p>
         </div>
         <div className="answer-item">
