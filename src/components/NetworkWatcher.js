@@ -12,13 +12,15 @@ class NetworkWatcher extends Component {
     this.handleOfflineStatusChange = this.handleOfflineStatusChange.bind(this)
   }
   componentWillMount () {
-    check().then(this.handleOfflineStatusChange)
+    check().then((result) => {
+      this.handleOfflineStatusChange(result, true)
+    })
     this.unwatch = watch(this.handleOfflineStatusChange)
   }
   componentWillUnmount () {
     this.unwatch()
   }
-    handleOfflineStatusChange (isOffline) {
+  handleOfflineStatusChange (isOffline) {
     this.props.setOfflineStatus(isOffline)
   }
   render() {
@@ -37,15 +39,16 @@ const mapStateToProps = function (state) {
     isOffline: state.global.isOffline
   }
 }
+
 const mapDispatchToProps = function (dispatch, props) {
   return {
-    setOfflineStatus: (isOffline) => {
+    setOfflineStatus: (isOffline, isFirstCheck) => {
       dispatch(setVar({
         key: 'isOffline',
         value: isOffline
       }))
       // changed from offline to online
-      if (isOffline === false) {
+      if (isOffline === false && !isFirstCheck) {
         dispatch(hydrateState())
       }
     },
