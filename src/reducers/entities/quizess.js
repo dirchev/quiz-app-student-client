@@ -9,18 +9,21 @@ const quizessEntities = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         ...arrayToEntities(
-            action.payload.quizess.map(item => ({__meta: {}, ...item})),
-            state
-          )
+          action.payload.quizess,
+          state
+        )
       }
     case 'QUIZ_RETRIEVE_SUCCESS':
       return {
         ...state,
         [action.payload.quiz._id]: {
-          __meta: {},
           ...state[action.payload.quiz._id],
           ...action.payload.quiz,
-          questions: action.payload.quiz.questions.map(({_id}) => _id)
+          questions: action.payload.quiz.questions.map(({_id}) => _id),
+          __meta: {
+            readyToEngage: true,
+            downloading: false
+          }
         }
       }
     case 'QUIZ_PREPARE_REQUEST':
