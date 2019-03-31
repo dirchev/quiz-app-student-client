@@ -87,24 +87,23 @@ class SwipeUpDown extends Component {
     if (this.state.locked) {
       let dy = event.clientY - this.state.y0
 
-      let movingUp = false
-      if (Math.sign(dy) === Math.sign(this.props.steps[0])) movingUp = true
-      let treshIndex = movingUp
-        ? this.props.step
-        : this.props.step - 1
-      if (treshIndex < 0) treshIndex = 0
-      if (treshIndex >= this.props.steps.length) treshIndex = this.props.steps.length - 1
-      let tresh = this.props.steps[treshIndex]
-      if (Math.abs(dy) > Math.abs(tresh)) {
-        this.props.onSwipeChange(movingUp ? this.state.stepOnStart + 1 : this.state.stepOnStart - 1)
-      } else if (Math.abs(dy) > 10) {
-        this.props.onSwipeChange(this.state.stepOnStart)
-      }
-      let dragY = Math.round(event.clientY - this.state.y0)
-      let smoothHeight = this.state.contentHeightOnLock + (dragY * Math.sign(this.props.steps[0]))
+      // let movingUp = false
+      // if (Math.sign(dy) === Math.sign(this.props.steps[0])) movingUp = true
+      // let treshIndex = movingUp
+      //   ? this.props.step
+      //   : this.props.step - 1
+      // if (treshIndex < 0) treshIndex = 0
+      // if (treshIndex >= this.props.steps.length) treshIndex = this.props.steps.length - 1
+      // let tresh = this.props.steps[treshIndex]
+      // if (Math.abs(dy) > Math.abs(tresh)) {
+      //   this.props.onSwipeChange(movingUp ? this.state.stepOnStart + 1 : this.state.stepOnStart - 1)
+      // } else if (Math.abs(dy) > 10) {
+      //   this.props.onSwipeChange(this.state.stepOnStart)
+      // }
+      let smoothHeight = this.state.contentHeightOnLock + (dy * Math.sign(this.props.steps[0]))
       if (smoothHeight < 0) smoothHeight = 0
 
-      this.setState({ dragY, smoothHeight })
+      this.setState({ dragY: dy, smoothHeight })
     }
   }
 
