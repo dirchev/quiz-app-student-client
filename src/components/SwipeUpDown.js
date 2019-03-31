@@ -55,7 +55,7 @@ class SwipeUpDown extends Component {
       locked: true,
       contentHeightOnLock: this.props.contentRef.current.offsetHeight,
       stepOnStart: this.props.step,
-      smoothHeight: 0
+      smoothHeight: this.props.contentRef.current.offsetHeight
     })
   }
 
