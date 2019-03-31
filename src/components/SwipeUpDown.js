@@ -1,31 +1,65 @@
-import React, { Component } from "react"
+import React, { Component, createRef } from "react"
+import { debounce } from 'lodash'
 
 class SwipeUpDown extends Component {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       y0: null,
       dragY: 0,
       locked: false,
       contentHeightOnLock: 0,
-      stepOnStart: 0
+      stepOnStart: 0,
+      smoothHeight: 0
     }
+    this.targetElementRef = createRef()
     this.lock = this.lock.bind(this)
     this.change = this.change.bind(this)
     this.move = this.move.bind(this)
   }
 
-  lock (e) {
+  componentDidMount () {
+    let debouncedLock = this.lock
+    let debouncedMove = this.move
+    let debouncedChange = this.change
+    this.targetElementRef.current.addEventListener('mousedown', (e) => {
+      e.preventDefault()
+      debouncedLock(e)
+    })
+    this.targetElementRef.current.addEventListener('touchstart', (e) => {
+      e.preventDefault()
+      debouncedLock(e)
+    })
+    this.targetElementRef.current.addEventListener('touchmove', (e) => {
+      e.preventDefault()
+      debouncedMove(e)
+    })
+    this.targetElementRef.current.addEventListener('mousemove', (e) => {
+      e.preventDefault()
+      debouncedMove(e)
+    })
+    this.targetElementRef.current.addEventListener('touchend', (e) => {
+      e.preventDefault()
+      debouncedChange(e)
+    })
+    this.targetElementRef.current.addEventListener('mouseup', (e) => {
+      e.preventDefault()
+      debouncedChange(e)
+    })
+  }
+
+  lock(e) {
     let event = e.changedTouches ? e.changedTouches[0] : e
     this.setState({
       y0: event.clientY,
       locked: true,
       contentHeightOnLock: this.props.contentRef.current.offsetHeight,
-      stepOnStart: this.props.step
+      stepOnStart: this.props.step,
+      smoothHeight: 0
     })
   }
 
-  change (e) {
+  change(e) {
     let event = e.changedTouches ? e.changedTouches[0] : e
     if (this.state.locked) {
       let dy = event.clientY - this.state.y0
@@ -44,12 +78,11 @@ class SwipeUpDown extends Component {
         this.props.onSwipeChange(this.state.stepOnStart)
       }
 
-      this.setState({y0: null, dragY: 0, locked: false})
+      this.setState({ y0: null, dragY: 0, locked: false })
     }
   }
 
-  move (e) {
-    e.preventDefault()
+  move(e) {
     let event = e.changedTouches ? e.changedTouches[0] : e
     if (this.state.locked) {
       let dy = event.clientY - this.state.y0
@@ -64,14 +97,14 @@ class SwipeUpDown extends Component {
       let tresh = this.props.steps[treshIndex]
       if (Math.abs(dy) > Math.abs(tresh)) {
         this.props.onSwipeChange(movingUp ? this.state.stepOnStart + 1 : this.state.stepOnStart - 1)
-      } else if (Math.abs(dy) > 10)  {
+      } else if (Math.abs(dy) > 10) {
         this.props.onSwipeChange(this.state.stepOnStart)
       }
       let dragY = Math.round(event.clientY - this.state.y0)
       let smoothHeight = this.state.contentHeightOnLock + (dragY * Math.sign(this.props.steps[0]))
       if (smoothHeight < 0) smoothHeight = 0
 
-      this.setState({dragY, smoothHeight})
+      this.setState({ dragY, smoothHeight })
     }
   }
 
@@ -91,13 +124,8 @@ class SwipeUpDown extends Component {
     if (this.state.locked) classNames.push('smooth')
     return (
       <div className={classNames.join(' ')}>
-        <div ref={this.containerRef} style={containerStyle} className="items">
-          <div
-            onMouseDown={this.lock}
-            onTouchStart={this.lock}
-            onTouchMove={this.move}
-            onMouseUp={this.change}
-            onTouchEnd={this.change}>
+        <div style={containerStyle} className="items">
+          <div ref={this.targetElementRef}>
             {this.props.children}
           </div>
         </div>

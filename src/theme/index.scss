@@ -12,6 +12,14 @@
   font-size: .8em;
   font-weight: bold;
 }
+.swipeup {
+  touch-action: none;
+}
+
+*:active {
+  background-color: red!important;
+}
+
 .swipeup.smooth {
   .user-testing-panel {
     .content-wrapper {
