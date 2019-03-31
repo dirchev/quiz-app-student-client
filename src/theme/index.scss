@@ -30,10 +30,10 @@
 }
 
 .user-testing-panel {
+  position: fixed;
   display: block;
   border: 0;
   width: 100%;
-  position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
@@ -62,7 +62,6 @@
   .content-wrapper {
     overflow: auto;
     max-height: calc(80vh - 1.2em);
-    transition: height .1s linear;
     background-color: white;
 
     .content {
@@ -111,4 +110,8 @@ body,textarea {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  padding-bottom: 20px;
 }

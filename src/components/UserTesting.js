@@ -93,6 +93,14 @@ class UserTesting extends Component {
     this.props.startTest()
   }
 
+  componentDidUpdate () {
+    if (this.state.opened === 1) {
+      document.getElementById('root').style.paddingBottom = '100px'
+    } else {
+      document.getElementById('root').style.paddingBottom = '20px'
+    }
+  }
+
   render() {
     return (
       <SwipeUpDown
