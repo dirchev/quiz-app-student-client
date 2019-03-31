@@ -11,7 +11,7 @@ class NotificationsManager extends Component {
             <div className="notification-title">New version available!</div>
             <p className="notification-text">New version of the app is available. Click the button below to refresh the app.</p>
             <div className="controls">
-              <button onClick={() => window.location.reload(false)} className="button button-notification">Refresh</button>
+              <button onClick={() => window.location.reload(true)} className="button button-notification">Refresh</button>
             </div>
           </div>
         )
