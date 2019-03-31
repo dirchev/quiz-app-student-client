@@ -3,7 +3,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Profile from './pages/Profile';
 import QuizPreview from './pages/QuizPreview';
 import QuizEngage from './pages/QuizEngage';
 import QuizEngagements from './pages/QuizEngagements';
@@ -17,6 +16,7 @@ import { Provider } from 'react-redux'
 import PrivateRoute from './components/PrivateRoute'
 import {loadQuizApp} from 'actions/quizApp'
 import { PersistGate } from 'redux-persist/integration/react'
+import UserTesting from 'components/UserTesting';
 
 class App extends Component {
   constructor () {
@@ -46,9 +46,9 @@ class App extends Component {
 
               {/* ProtectedRoutes */}
               <NetworkWatcher />
+              <UserTesting />
               <NotificationsManager />
               <PrivateRoute title="Dashboard" path="/dashboard" component={Dashboard} />
-              <PrivateRoute title="Profile" path="/profile" component={Profile} />
 
               <PrivateRoute title="Quiz Preview" exact path="/quiz/:quizId" component={QuizPreview} />
               <PrivateRoute title="Quiz Engagements" exact path="/quiz/:quizId/engagements" component={QuizEngagements} />

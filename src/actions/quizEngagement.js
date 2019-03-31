@@ -160,7 +160,7 @@ export let endQuizEngagement = ({quizEngagement}) => async dispatch => {
 
 export let syncQuizEngagement = ({_id, ...quizEngagement}) => async (dispatch, getState) => {
   let isOffline = getState().global.isOffline
-  if (isOffline) return console.log('sadsadsad')
+  if (isOffline) return
 
   dispatch({
     type: 'QUIZ_ENGAGEMENT_SYNC_REQUEST',

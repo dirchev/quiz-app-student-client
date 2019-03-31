@@ -9,6 +9,7 @@ import QuizEngagementsItemSimple from "./QuizEngagementsItemSimple";
 
 class QuizEngagements extends Component {
   componentWillMount () {
+    this.props.recordUserTestProgress('QuizEngagementsOpen')
     this.props.getQuizEngagements()
   }
 
@@ -75,7 +76,13 @@ let mapStateToProps = (state, props) => {
 let mapDispatchToProps = (dispatch, props) => {
   let quizId = props.match.params.quizId
   return {
-    getQuizEngagements: () => dispatch(listQuizEngagements({quizId}))
+    getQuizEngagements: () => dispatch(listQuizEngagements({quizId})),
+    recordUserTestProgress: (key) => {
+      dispatch({
+        type: 'SET_USER_TEST_PROGRESS',
+        payload: { key }
+      })
+    }
   }
 }
 

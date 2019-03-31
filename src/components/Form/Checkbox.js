@@ -23,18 +23,21 @@ class Checkbox extends Component {
   render () {
     return (
       <div
-        className={cn('form-field checkbox', {
+        className={cn('form-field checkbox ' + this.props.className, {
+          'top-label': this.props.topLabel,
           'has-error': this.props.error,
           'is-successful': this.props.isSuccessful,
           'is-loading': this.props.isLoading,
+          'is-disabled': this.props.disabled,
         })}
       >
         <label htmlFor={this.inputId} className="label">{this.props.label}</label>
         <input
           type="checkbox"
           className="input"
-          value={this.props.value}
+          checked={this.props.checked}
           onChange={this.props.onChange}
+          disabled={this.props.disabled}
           id={this.inputId}
         />
         <div className="check"></div>

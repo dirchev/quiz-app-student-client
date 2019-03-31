@@ -1,12 +1,66 @@
 @import './ui-toolkit/index.scss';
 
 .offline-message {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   background-color: map-get($danger, 700);
   color: white;
   text-align: center;
   padding: .1em;
   font-size: .8em;
   font-weight: bold;
+}
+.swipeup.smooth {
+  .user-testing-panel {
+    .content-wrapper {
+      overflow: hidden;
+      height: var(--swipe-updown-y);
+    }
+  }
+}
+
+.user-testing-panel {
+  display: block;
+  border: 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  max-height: 80vh;
+
+  .title {
+    border: none;
+    width: 100%;
+    background-color: map-get($success, 700);
+    color: white;
+    text-align: center;
+    padding: .2em .5em;
+    font-size: .8em;
+    display: flex;
+
+    .content {
+      flex-grow: 1;
+    }
+  }
+
+  &.opened > .content-wrapper > .content {
+    padding: 1em 1.5em;
+  }
+
+  .content-wrapper {
+    overflow: auto;
+    max-height: calc(80vh - 1.2em);
+    background-color: white;
+
+    .content {
+      height: 100%;
+      background-color: white;
+    }
+  }
 }
 
 .code-example {

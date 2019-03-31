@@ -18,6 +18,7 @@ class QuizFeedback extends Component {
   }
 
   componentDidMount () {
+    this.props.recordUserTestProgress('QuizFeedbackOpen')
     this.props.retrieveQuizEngagementAndQuiz()
     this.setState({requestedFetch: true})
   }
@@ -118,6 +119,12 @@ let mapDispatchToProps = (dispatch, props) => {
     retrieveQuizEngagementAndQuiz: () => {
       dispatch(retrieveQuiz({quizId}))
       dispatch(retrieveQuizEngagement({quizId, quizEngagementId}))
+    },
+    recordUserTestProgress: (key) => {
+      dispatch({
+        type: 'SET_USER_TEST_PROGRESS',
+        payload: { key }
+      })
     }
   }
 }

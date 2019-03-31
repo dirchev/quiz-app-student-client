@@ -24,6 +24,7 @@ class QuizEngage extends Component {
   }
 
   componentWillMount () {
+    this.props.recordUserTestProgress('QuizEngagementStart')
     this.props.setupQuizEngagement()
     this.timeLeftInterval = setInterval(() => {
       if (this.props.quiz.timeLimit && this.props.quizEngagement.startedAt) {
@@ -39,7 +40,8 @@ class QuizEngage extends Component {
     }, 1000)
   }
 
-  componentWillUnmount () {
+    componentWillUnmount () {
+    this.props.recordUserTestProgress('QuizEngagementEnd')
     clearInterval(this.timeLeftInterval)
     this.props.endQuizEngagement(this.props.quizEngagement)
   }
@@ -52,6 +54,7 @@ class QuizEngage extends Component {
   }
 
   changeQuestionIndex (questionIndex) {
+    this.props.recordUserTestProgress('QuizEngagementQuestionChange')
     if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
     this.setState({questionIndex})
   }
@@ -68,6 +71,7 @@ class QuizEngage extends Component {
 
   handleFinishQuizEngagement (e) {
     e && e.preventDefault()
+    this.props.recordUserTestProgress('QuizEngagementFinish')
     this.props.finishQuizEngagement(this.props.quizEngagement)
   }
 
@@ -193,6 +197,12 @@ let mapDispatchToProps = (dispatch, props) => {
     updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({quizEngagement})),
     finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({quizEngagement})),
     endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({quizEngagement})),
+    recordUserTestProgress: (key) => {
+      dispatch({
+        type: 'SET_USER_TEST_PROGRESS',
+        payload: { key }
+      })
+    }
   }
 }
 

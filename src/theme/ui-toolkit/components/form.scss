@@ -1,3 +1,13 @@
+@mixin checkbox-radio-coloring ($palette) {
+  & > input[type="checkbox"] {
+    &:checked ~ .check {
+      &:after {
+        background-color: map-get($palette, 500) !important;
+      }
+    }
+  }
+}
+
 .form {
   &.inline {
     .form-field {
@@ -16,6 +26,21 @@
     grid-template-columns: auto;
     grid-row-gap: .2em;
     margin-bottom: 10px;
+
+    @each $color, $palette in $colorPalettes {
+      &.checkbox-#{$color} {
+        @include checkbox-radio-coloring($palette)
+      }
+      &.radio-#{$color} {
+        @include checkbox-radio-coloring($palette)
+      }
+    }
+
+    &.crossed {
+      .label, .input-message {
+        text-decoration: line-through;
+      }
+    }
 
     &.checkbox, &.radio {
       grid-template-areas: "input label" "input message";
