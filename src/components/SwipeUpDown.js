@@ -49,6 +49,7 @@ class SwipeUpDown extends Component {
   }
 
   move (e) {
+    e.preventDefault()
     let event = e.changedTouches ? e.changedTouches[0] : e
     if (this.state.locked) {
       let dy = event.clientY - this.state.y0
