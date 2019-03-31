@@ -63,7 +63,7 @@ class SwipeUpDown extends Component {
       let tresh = this.props.steps[treshIndex]
       if (Math.abs(dy) > Math.abs(tresh)) {
         this.props.onSwipeChange(movingUp ? this.state.stepOnStart + 1 : this.state.stepOnStart - 1)
-      } else {
+      } else if (Math.abs(dy) > 10)  {
         this.props.onSwipeChange(this.state.stepOnStart)
       }
       let dragY = Math.round(event.clientY - this.state.y0)

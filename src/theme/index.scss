@@ -54,12 +54,18 @@
   .content-wrapper {
     overflow: auto;
     max-height: calc(80vh - 1.2em);
+    transition: height .1s linear;
     background-color: white;
 
     .content {
       height: 100%;
       background-color: white;
     }
+  }
+
+  .hidden {
+    display: none;
+    visibility: hidden;
   }
 }
 

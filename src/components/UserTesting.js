@@ -127,32 +127,26 @@ class UserTesting extends Component {
   }
 
   renderContent() {
-    if (this.state.opened === 1) {
-      let taskDetails = this.getCurrentTask()
-      let taskStatus = this.props.userTesting.steps[taskDetails._id]
-      return (
-        <Fragment>
-          <div className="form">
-            <Checkbox
-              readOnly
-              className={cn("checkbox-success", { 'crossed': !!taskStatus })}
-              label={taskDetails.title}
-              checked={!!taskStatus}
-              helpText={taskDetails.description}
-            />
-          </div>
-        </Fragment>
-      )
-    }
-    if (this.state.opened === 2) {
-      return (
-        <Fragment>
+    let taskDetails = this.getCurrentTask()
+    let taskStatus = this.props.userTesting.steps[taskDetails._id]
+    return (
+      <Fragment>
+        <div className={cn('form', {hidden: this.state.opened !== 1})}>
+          <Checkbox
+            readOnly
+            className={cn("checkbox-success", { 'crossed': !!taskStatus })}
+            label={taskDetails.title}
+            checked={!!taskStatus}
+            helpText={taskDetails.description}
+          />
+        </div>
+        <div className={cn({hidden: this.state.opened !== 2})}>
           <h4>User Testing Information</h4>
           {this.renderTasks()}
           <button className="button button-primary button-small" onClick={this.startTest}>Start</button>
-        </Fragment>
-      )
-    }
+        </div>
+      </Fragment>
+    )
   }
 
   renderTasks() {
