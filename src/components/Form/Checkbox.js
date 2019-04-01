@@ -33,6 +33,7 @@ class Checkbox extends Component {
       >
         <label htmlFor={this.inputId} className="label">{this.props.label}</label>
         <input
+          readOnly={this.props.readOnly}
           type="checkbox"
           className="input"
           checked={this.props.checked}
