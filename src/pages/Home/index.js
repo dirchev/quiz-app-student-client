@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react"
 import { Link, Redirect } from "react-router-dom"
 import { connect } from "react-redux"
-import Navigation from 'components/Navigation'
 class Home extends Component {
   render() {
     if (this.props.userAuthenticated) {
@@ -9,7 +8,6 @@ class Home extends Component {
     }
     return (
       <Fragment>
-        <Navigation/>
         <div className="container">
           <div className="title-header">
             <h1>Quiz App</h1>
