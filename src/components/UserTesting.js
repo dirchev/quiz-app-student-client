@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react"
 import { connect } from "react-redux"
-import { faFlask, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faFlask, faChevronUp, faChevronDown, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Checkbox from 'components/Form/Checkbox'
 import cn from 'classnames'
@@ -58,6 +58,7 @@ class UserTesting extends Component {
     this.togglePanelOpened = this.togglePanelOpened.bind(this)
     this.startTest = this.startTest.bind(this)
     this.setOpenedState = this.setOpenedState.bind(this)
+    this.handleOnWheel = this.handleOnWheel.bind(this)
 
     this.contentRef = React.createRef();
   }
@@ -100,6 +101,11 @@ class UserTesting extends Component {
     }
   }
 
+  handleOnWheel (e) {
+    let deltaY = e.deltaY
+    this.setOpenedState(this.state.opened - Math.sign(deltaY))
+  }
+
   render() {
     return (
       <SwipeUpDown
@@ -107,10 +113,17 @@ class UserTesting extends Component {
         step={this.state.opened}
         steps={[-50, -100]}
         onSwipeChange={this.setOpenedState}>
-        <div className={cn('user-testing-panel', {opened: this.state.opened})}>
-          <button onClick={this.togglePanelOpened} className="title">
-            <FontAwesomeIcon icon={this.state.opened ? faChevronDown : faChevronUp} />
-            <div className="content">
+        <div
+          onMouseEnter={(e) => this.state.opened === 0 && this.setState({opened: 1, mouseEnter: true})}
+          onWheel={this.handleOnWheel}
+          onMouseLeave={(e) => this.state.mouseEnter && this.setState({opened: 0, mouseEnter: false})}
+          className={cn('user-testing-panel', {opened: this.state.opened})}>
+          <div className="drag-icon">
+            <FontAwesomeIcon icon={faEllipsisH} />
+          </div>
+          <button
+            onClick={this.togglePanelOpened}
+            className="title">
               <span>
                 {
                   this.props.userTesting.steps['Start']
@@ -119,10 +132,7 @@ class UserTesting extends Component {
                 }
               </span>&nbsp;
               <FontAwesomeIcon icon={faFlask} />
-            </div>
-            <FontAwesomeIcon icon={this.state.opened ? faChevronDown : faChevronUp} />
           </button>
-
           <div className="content-wrapper">
             <div className="content" ref={this.contentRef}>
               {this.renderContent()}

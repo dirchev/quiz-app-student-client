@@ -35,20 +35,28 @@
   left: 0;
   z-index: 5;
   max-height: 80vh;
+  background-color: map-get($success, 900);
+  padding-top: .8rem;
+
+  .drag-icon {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: .8rem;
+    color: white;
+  }
 
   .title {
     border: none;
     width: 100%;
-    background-color: map-get($success, 700);
+    background-color: map-get($success, 800);
     color: white;
     text-align: center;
     padding: .2em .5em;
     font-size: .8em;
-    display: flex;
-
-    .content {
-      flex-grow: 1;
-    }
   }
 
   &.opened > .content-wrapper > .content {
