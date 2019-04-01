@@ -82,7 +82,6 @@ class UserTesting extends Component {
   }
 
   setOpenedState(newStep) {
-    console.log('newStep', newStep)
     if (newStep < 0) newStep = 0
     if (newStep > 2) newStep = 2
     this.setState({ opened: newStep })
