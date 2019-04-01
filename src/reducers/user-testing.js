@@ -20,18 +20,27 @@ const DEFAULT_STATE = {
   }
 }
 const userTestingReducer = (state = DEFAULT_STATE, action) => {
+  let time =  Date.now()
   switch (action.type) {
-    case 'SET_USER_TEST_PROGRESS':
-      let time =  Date.now()
-      if (action.payload.key === 'Start') {
-        return {
-          ...DEFAULT_STATE,
-          steps: {
-            ...DEFAULT_STATE.steps,
-            Start: time
-          }
+    case 'USER_TEST_CREATE_REQUEST':
+      return {
+        ...DEFAULT_STATE,
+        steps: {
+          ...DEFAULT_STATE.steps,
+          Start: time
         }
       }
+    case 'USER_TEST_CREATE_SUCCESS':
+      return {
+        _id: action.payload.userTest._id,
+        ...state
+      }
+    case 'USER_TEST_FINISH_SUCCESS':
+      return {
+        finished: true,
+        ...state
+      }
+    case 'SET_USER_TEST_PROGRESS':
       if (!state.steps[action.payload.key]) {
         return {
           ...state,
@@ -58,7 +67,7 @@ const userTestingReducer = (state = DEFAULT_STATE, action) => {
         ...state,
         flags: {
           ...state.flags,
-          [action.payload.key]: true
+          [action.payload.key]: time
         }
       }
 

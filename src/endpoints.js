@@ -21,3 +21,10 @@ export let quizEngagement = {
   finish: ({quizId, quizEngagementId}) => `${root}/api/quizess/${quizId}/quiz-engagements/${quizEngagementId}/finish`,
   list: ({quizId}) => `${root}/api/quizess/${quizId}/quiz-engagements`
 }
+
+export let userTests = {
+  create: () => `${root}/api/user-tests`,
+  setFlag: ({userTestId}) => `${root}/api/user-tests/${userTestId}/set-flag`,
+  setStep: ({userTestId}) => `${root}/api/user-tests/${userTestId}/set-step`,
+  finish: ({userTestId}) => `${root}/api/user-tests/${userTestId}/finish`,
+}

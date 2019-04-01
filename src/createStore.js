@@ -9,7 +9,7 @@ export default () => {
   const persistConfig = {
     key: 'quiz-app',
     storage,
-    blacklist: ['notifications', 'userTesting', 'statuses', 'success', 'loading',' error']
+    blacklist: ['notifications', 'userTesting', 'statuses', 'success', 'loading','error']
   }
   let store = createStore(
     persistReducer(persistConfig, rootReducer),

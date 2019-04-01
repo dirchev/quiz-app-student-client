@@ -109,12 +109,12 @@
       }
 
       @media screen and (max-width: 660px) {
-      .form-field:focus-within {
-        left: unset;
-        top: 1em;
-        right: unset;
-        width: 90vw;
-      }
+        .form-field:focus-within {
+          left: unset;
+          top: 1em;
+          right: unset;
+          width: 90vw;
+        }
       }
 
       @media screen and (max-width: 660px) {
