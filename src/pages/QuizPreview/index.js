@@ -6,6 +6,7 @@ import QuizActions from "./QuizActions";
 import QuizDetails from "./QuizDetails";
 import './index.scss'
 import { listQuizEngagements } from "../../actions/quizEngagement";
+import { setUserTestProgress } from "../../actions/userTest";
 
 
 class QuizPreview extends Component {
@@ -53,10 +54,7 @@ let mapDispatchToProps = (dispatch, props) => {
     retrieveQuiz: () => dispatch(retrieveQuiz({quizId})),
     getQuizEngagements: () => dispatch(listQuizEngagements({quizId})),
     recordQuizPreview: () => {
-      dispatch({
-        type: 'SET_USER_TEST_PROGRESS',
-        payload: { key: 'QuizPreview' }
-      })
+      dispatch(setUserTestProgress('QuizPreview'))
     }
   }
 }

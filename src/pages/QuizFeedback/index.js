@@ -5,6 +5,7 @@ import { retrieveQuiz } from "actions/quiz"
 import QuizFeedbackQuestion from "./Question";
 import Navigation from 'components/Navigation'
 import Swipable from "../../components/Swipable";
+import { setUserTestProgress } from "../../actions/userTest";
 
 class QuizFeedback extends Component {
   constructor (props) {
@@ -121,10 +122,7 @@ let mapDispatchToProps = (dispatch, props) => {
       dispatch(retrieveQuizEngagement({quizId, quizEngagementId}))
     },
     recordUserTestProgress: (key) => {
-      dispatch({
-        type: 'SET_USER_TEST_PROGRESS',
-        payload: { key }
-      })
+      dispatch(setUserTestProgress(key))
     }
   }
 }

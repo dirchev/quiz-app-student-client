@@ -1,11 +1,11 @@
-export let setUserTestProgress = ({key}) => async dispatch => {
+export let setUserTestProgress = (key) => async dispatch => {
   dispatch({
     type: 'SET_USER_TEST_PROGRESS',
     payload: { key }
   })
 }
 
-export let setUserTestFlag = ({key}) => async dispatch => {
+export let setUserTestFlag = (key) => async dispatch => {
   dispatch({
     type: 'SET_USER_TEST_FLAG',
     payload: { key }

@@ -8,6 +8,7 @@ import { differenceInMilliseconds } from "date-fns";
 import prettyMs from 'pretty-ms'
 import Navigation from 'components/Navigation'
 import Swipable from "../../components/Swipable";
+import { setUserTestProgress, setUserTestFlag } from "../../actions/userTest";
 
 class QuizEngage extends Component {
   constructor (props) {
@@ -21,6 +22,7 @@ class QuizEngage extends Component {
     this.handleAnswerChange = this.handleAnswerChange.bind(this)
     this.changeQuestionIndex = this.changeQuestionIndex.bind(this)
     this.handleFinishQuizEngagement = this.handleFinishQuizEngagement.bind(this)
+    this.handleSwipeQuestionIndexChange = this.handleSwipeQuestionIndexChange.bind(this)
   }
 
   componentWillMount () {
@@ -73,6 +75,11 @@ class QuizEngage extends Component {
     e && e.preventDefault()
     this.props.recordUserTestProgress('QuizEngagementFinish')
     this.props.finishQuizEngagement(this.props.quizEngagement)
+  }
+
+  handleSwipeQuestionIndexChange (newIndex) {
+    this.changeQuestionIndex(newIndex)
+    this.props.recordUserTestFlag('QuestionSwipe')
   }
 
   render() {
@@ -145,7 +152,7 @@ class QuizEngage extends Component {
           <Swipable
             className="questions"
             selectedChildIndex={this.state.questionIndex}
-            onSelectedChildIndexChange={this.changeQuestionIndex}
+            onSelectedChildIndexChange={this.handleSwipeQuestionIndexChange}
             >
             {
               this.props.questions.map((question, index) => {
@@ -198,10 +205,10 @@ let mapDispatchToProps = (dispatch, props) => {
     finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({quizEngagement})),
     endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({quizEngagement})),
     recordUserTestProgress: (key) => {
-      dispatch({
-        type: 'SET_USER_TEST_PROGRESS',
-        payload: { key }
-      })
+      dispatch(setUserTestProgress(key))
+    },
+    recordUserTestFlag: (key) => {
+      dispatch(setUserTestFlag(key))
     }
   }
 }

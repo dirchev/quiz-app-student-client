@@ -29,7 +29,7 @@ class QuizActions extends Component {
     )
     if (!this.props.quiz.__meta.readyToEngage) return null
     if (this.props.quiz.marksReleased && !this.props.quiz.canMarkAutomatically) return null
-    if (this.props.quiz.noOfAttempts && this.props.quiz.quizEngagements.length >= this.props.quiz.noOfAttempts) return (
+    if (this.props.quiz.noOfAttempts && (this.props.quiz.quizEngagements || []).length >= this.props.quiz.noOfAttempts) return (
       <div className="alert alert-blue alert-small text-center">
         You have reached the maximum number of attempts for this quiz.
       </div>

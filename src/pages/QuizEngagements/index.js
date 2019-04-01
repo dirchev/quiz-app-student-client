@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { groupBy, sortBy, reverse } from 'lodash'
 import QuizEngagementsItemWithMarks from "./QuizEngagementsItemWithMarks";
 import QuizEngagementsItemSimple from "./QuizEngagementsItemSimple";
+import { setUserTestProgress } from "../../actions/userTest";
 
 class QuizEngagements extends Component {
   componentWillMount () {
@@ -78,10 +79,7 @@ let mapDispatchToProps = (dispatch, props) => {
   return {
     getQuizEngagements: () => dispatch(listQuizEngagements({quizId})),
     recordUserTestProgress: (key) => {
-      dispatch({
-        type: 'SET_USER_TEST_PROGRESS',
-        payload: { key }
-      })
+      dispatch(setUserTestProgress(key))
     }
   }
 }
