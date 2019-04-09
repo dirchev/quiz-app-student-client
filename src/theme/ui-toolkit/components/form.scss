@@ -27,17 +27,17 @@
     grid-row-gap: .2em;
     margin-bottom: 10px;
 
-    @media screen and (max-width: 660px) {
-      &:focus-within {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background-color: white;
-        padding: 1em;
-        box-shadow: 0px 0px 6px 2px #00000044;
-      }
-    }
+    // @media screen and (max-width: 660px) {
+    //   &:focus-within {
+    //     position: fixed;
+    //     top: 0;
+    //     left: 0;
+    //     right: 0;
+    //     background-color: white;
+    //     padding: 1em;
+    //     box-shadow: 0px 0px 6px 2px #00000044;
+    //   }
+    // }
 
     @each $color, $palette in $colorPalettes {
       &.checkbox-#{$color} {
