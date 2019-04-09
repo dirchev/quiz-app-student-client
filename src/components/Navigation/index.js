@@ -23,7 +23,7 @@ class Navigation extends Component {
           this.props.leftBackTo
             ? (
               <div className="left back">
-                <Link to={this.props.leftBackTo} className="button button-small button-outline">
+                <Link to={this.props.leftBackTo} className="button button-small button-outline" aria-label="Back">
                   <FontAwesomeIcon icon={faChevronLeft} />
               </Link>
               </div>
@@ -42,7 +42,7 @@ class Navigation extends Component {
           }
         </div>
         <div className="right logout">
-            <button onClick={this.handleLogout} className="button button-small button-outline">
+            <button onClick={this.handleLogout} className="button button-small button-outline" aria-label="Logout">
               <FontAwesomeIcon icon={faSignOutAlt} />
             </button>
           </div>

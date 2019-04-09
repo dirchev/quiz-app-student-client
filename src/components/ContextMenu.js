@@ -25,7 +25,7 @@ class ContextMenu extends Component {
   render() {
     return (
       <div className={`context-menu ${this.state.opened ? 'opened' : false}`}>
-        <button  onClick={this.handleOpen} className="context-menu-button">
+        <button  onClick={this.handleOpen} className="context-menu-button" aria-label="Quiz Options">
           <FontAwesomeIcon icon={faEllipsisV}/>
         </button>
         <div className="context-menu-items" onClick={this.handleClose}>
