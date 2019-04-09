@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux";
 import QuizEngageQuestion from "./Question";
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { createQuizEngagement, updateQuizEngagement, finishQuizEngagement, endQuizEngagement, resumeQuizEngagement } from "../../actions/quizEngagement";
 import { getAllErrorMessages } from "../../utils/errorMessages";
 import { differenceInMilliseconds } from "date-fns";
@@ -9,9 +9,11 @@ import prettyMs from 'pretty-ms'
 import Navigation from 'components/Navigation'
 import Swipable from "../../components/Swipable";
 import { setUserTestProgress, setUserTestFlag } from "../../actions/userTest";
+import isMobile from 'is-mobile'
+import classNames from 'classnames'
 
 class QuizEngage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,7 +27,24 @@ class QuizEngage extends Component {
     this.handleSwipeQuestionIndexChange = this.handleSwipeQuestionIndexChange.bind(this)
   }
 
-  componentWillMount () {
+  areAllQuestionsAnswered () {
+    for (let question of this.props.questions) {
+      if (!this.isQuestionAnswered(question)) return false
+    }
+    return true
+  }
+
+  isQuestionAnswered (question) {
+    return this.props.quizEngagement.answersGiven[question._id]
+  }
+
+  showFinishButton () {
+    return !isMobile() ||
+      this.state.questionIndex === this.props.questions.length - 1 ||
+      this.areAllQuestionsAnswered()
+  }
+
+  componentWillMount() {
     this.props.recordUserTestProgress('QuizEngagementStart')
     this.props.setupQuizEngagement()
     this.timeLeftInterval = setInterval(() => {
@@ -42,26 +61,26 @@ class QuizEngage extends Component {
     }, 1000)
   }
 
-    componentWillUnmount () {
+  componentWillUnmount() {
     this.props.recordUserTestProgress('QuizEngagementEnd')
     clearInterval(this.timeLeftInterval)
     this.props.endQuizEngagement(this.props.quizEngagement)
   }
 
-  handleQuestionIndexChange (questionIndex) {
+  handleQuestionIndexChange(questionIndex) {
     return (event) => {
       event.preventDefault()
       this.changeQuestionIndex(questionIndex)
     }
   }
 
-  changeQuestionIndex (questionIndex) {
+  changeQuestionIndex(questionIndex) {
     this.props.recordUserTestProgress('QuizEngagementQuestionChange')
     if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
-    this.setState({questionIndex})
+    this.setState({ questionIndex })
   }
 
-  handleAnswerChange (questionId, answer) {
+  handleAnswerChange(questionId, answer) {
     this.props.updateQuizEngagement({
       ...this.props.quizEngagement,
       answersGiven: {
@@ -71,13 +90,13 @@ class QuizEngage extends Component {
     })
   }
 
-  handleFinishQuizEngagement (e) {
+  handleFinishQuizEngagement(e) {
     e && e.preventDefault()
     this.props.recordUserTestProgress('QuizEngagementFinish')
     this.props.finishQuizEngagement(this.props.quizEngagement)
   }
 
-  handleSwipeQuestionIndexChange (newIndex) {
+  handleSwipeQuestionIndexChange(newIndex) {
     this.changeQuestionIndex(newIndex)
     this.props.recordUserTestFlag('QuestionSwipe')
   }
@@ -85,7 +104,7 @@ class QuizEngage extends Component {
   render() {
     if (this.props.shouldRedirect) {
       return (
-        <Redirect to={`/quiz/${this.props.quiz._id}/engage/${this.props.quizEngagement._id}`}/>
+        <Redirect to={`/quiz/${this.props.quiz._id}/engage/${this.props.quizEngagement._id}`} />
       )
     }
     if (this.props.createError || this.props.finishError) {
@@ -129,31 +148,48 @@ class QuizEngage extends Component {
         <Navigation title={this.props.quiz.name} />
         <div className="quiz">
           <div className="info">
-            <div className="progress">
-              {
-                this.props.questions.map((question, index) => {
-                  let isActive = this.state.questionIndex === index
-                  return (
-                    <button
-                      key={index}
-                      className={`item button button-small button-blue ${isActive ? '' : 'button-outline '}`}
-                      onClick={this.handleQuestionIndexChange(index)}
-                      >
-                      {index + 1}
-                    </button>
-                  )
-                })
-              }
-            </div>
-            <div className="timeleft">
-              {this.state.timeLeftString}
-            </div>
+            {
+              isMobile()
+                ? (
+                  <div className="progress">
+                    {
+                      this.props.questions.map((question, index) => {
+                        let isActive = this.state.questionIndex === index
+                        let isAnswered = this.isQuestionAnswered(question)
+                        return (
+                          <button
+                            key={index}
+                            className={
+                              classNames('item button button-small', {
+                                'button-outline': !isActive,
+                                'button-blue': !isAnswered,
+                                'button-success': isAnswered
+                              })
+                            }
+                            onClick={this.handleQuestionIndexChange(index)}
+                          >
+                            {index + 1}
+                          </button>
+                        )
+                      })
+                    }
+                  </div>
+                ) : null
+            }
+            {
+              !this.props.quiz.timeLimit
+                ? (
+                  <div className="timeleft">
+                    {this.state.timeLeftString}
+                  </div>
+                ) : null
+            }
           </div>
           <Swipable
             className="questions"
             selectedChildIndex={this.state.questionIndex}
             onSelectedChildIndexChange={this.handleSwipeQuestionIndexChange}
-            >
+          >
             {
               this.props.questions.map((question, index) => {
                 return (
@@ -167,9 +203,15 @@ class QuizEngage extends Component {
               })
             }
           </Swipable>
-          <div className="controls">
-            <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
-          </div>
+          {
+            this.showFinishButton()
+            ? (
+              <div className="controls">
+                <button className="button button-danger button" onClick={this.handleFinishQuizEngagement}>Finish Quiz</button>
+              </div>
+            ) : null
+          }
+
         </div>
       </div>
     )
@@ -196,14 +238,14 @@ let mapDispatchToProps = (dispatch, props) => {
   return {
     setupQuizEngagement: () => {
       if (quizEngagementId) {
-        dispatch(resumeQuizEngagement({quizId, quizEngagementId}))
+        dispatch(resumeQuizEngagement({ quizId, quizEngagementId }))
       } else {
-        dispatch(createQuizEngagement({quizId}))
+        dispatch(createQuizEngagement({ quizId }))
       }
     },
-    updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({quizEngagement})),
-    finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({quizEngagement})),
-    endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({quizEngagement})),
+    updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({ quizEngagement })),
+    finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({ quizEngagement })),
+    endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({ quizEngagement })),
     recordUserTestProgress: (key) => {
       dispatch(setUserTestProgress(key))
     },
