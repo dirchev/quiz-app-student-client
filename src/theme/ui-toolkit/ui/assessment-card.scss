@@ -34,7 +34,7 @@
 
       @each $color, $palette in $colorPalettes {
         &.#{$color} {
-          color: map-get($palette, 800)
+          color: map-get($palette, 900)
         }
       }
 

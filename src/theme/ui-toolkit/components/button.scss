@@ -1,15 +1,15 @@
 @mixin button-coloring ($palette) {
-  color: color-yiq(map-get($palette, 400));
-  background-color: map-get($palette, 400);
+  color: color-yiq(map-get($palette, 700));
+  background-color: map-get($palette, 700);
 
   &:hover {
-    background-color: map-get($palette, 500);
+    background-color: map-get($palette, 600);
   }
 
   &.button-outline {
     background: none;
-    border: solid 1px map-get($palette, 700);
-    color: map-get($palette, 700);
+    border: solid 1px map-get($palette, 800);
+    color: map-get($palette, 800);
   }
 
   &.button-link {
