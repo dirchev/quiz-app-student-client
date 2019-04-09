@@ -4,7 +4,7 @@ import MultilineText from "components/MultilineText";
 class MultipleChoiceQuestionMultipleCorrect extends Component {
   getAnswerGivenText () {
     return this.props.question.answers.options.filter((answer) => {
-      return this.props.answerGiven.indexOf(answer._id)
+      return this.props.answerGiven.indexOf(answer._id) !== -1
     }).map(({text}) => text)
   }
   render() {
