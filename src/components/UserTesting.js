@@ -138,6 +138,7 @@ class UserTesting extends Component {
   }
 
   render() {
+    if (this.props.finished) return null;
     let progress = this.getProgress() + '%'
     return (
       <SwipeUpDown
@@ -276,6 +277,7 @@ class UserTesting extends Component {
 
 const mapStateToProps = function (state) {
   return {
+    finished: state.success.USER_TEST_FINISH,
     userTesting: state.userTesting,
     loading: state.loading.USER_TEST_CREATE || state.loading.USER_TEST_FINISH,
     started: state.success.USER_TEST_CREATE,
