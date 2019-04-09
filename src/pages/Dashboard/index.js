@@ -72,7 +72,7 @@ class Dashboard extends Component {
           {
             !quiz.marksReleased
               ? (
-                <div className="info-item yellow">Marks pending.</div>
+                <div className="info-item indigo">Marks pending.</div>
               )
               : (
                 <div className="info-item green">Marks released.</div>
