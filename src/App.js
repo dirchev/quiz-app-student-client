@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -39,7 +39,7 @@ class App extends Component {
       <Provider store={this.props.store}>
         <PersistGate persistor={this.props.persistor} onBeforeLift={this.handleOnBeforeLift}>
           <Router>
-            <div>
+            <Fragment>
               <Route title="Home" exact path="/" component={Home} />
               <Route title="Login" path="/login" component={Login} />
               <Route title="Register" path="/register" component={Register} />
@@ -57,7 +57,7 @@ class App extends Component {
                 <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage/:quizEngagementId" component={QuizEngage} />
                 <PrivateRoute title="Quiz Attempt" path="/quiz/:quizId/engage" component={QuizEngage} />
               </Switch>
-            </div>
+            </Fragment>
           </Router>
         </PersistGate>
       </Provider>
