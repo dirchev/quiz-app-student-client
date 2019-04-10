@@ -5,17 +5,28 @@ import logout from "actions/logout"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { setUserTestFlag } from "../../actions/userTest";
 
 class Navigation extends Component {
   constructor () {
     super()
     this.handleLogout = this.handleLogout.bind(this)
+    this.recordLogoutTry = this.recordLogoutTry.bind(this)
   }
 
   handleLogout (e) {
     e.preventDefault()
     this.props.logoutUser()
   }
+
+  disableLogout () {
+    return this.props.userTestStarted
+  }
+
+  recordLogoutTry () {
+    this.props.setLogoutFlag()
+  }
+
   render() {
     return (
       <div className="navbar navbar-primary">
@@ -41,11 +52,23 @@ class Navigation extends Component {
               )
           }
         </div>
-        <div className="right logout">
-            <button onClick={this.handleLogout} className="button button-small button-outline" aria-label="Logout">
-              <FontAwesomeIcon icon={faSignOutAlt} />
-            </button>
-          </div>
+        {
+          this.disableLogout()
+          ? (
+            <div className="right logout">
+              <button onClick={this.recordLogoutTry} className="button button-small button-outline" aria-label="Logout">
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </button>
+            </div>
+          )
+          : (
+            <div className="right logout">
+              <button onClick={this.handleLogout} className="button button-small button-outline" aria-label="Logout">
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </button>
+            </div>
+          )
+        }
       </div>
     )
   }
@@ -53,13 +76,17 @@ class Navigation extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    quizApp: state.quizApp
+    quizApp: state.quizApp,
+    userTestStarted: state.userTesting.steps.Start
   }
 }
 const mapDispatchToProps = function (dispatch, { history }) {
   return {
     logoutUser: () => {
       dispatch(logout({history}))
+    },
+    setLogoutFlag: () => {
+      dispatch(setUserTestFlag('LogoutButtonClick'))
     }
   }
 }
