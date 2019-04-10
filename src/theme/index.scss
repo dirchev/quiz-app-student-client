@@ -1,5 +1,11 @@
 @import './ui-toolkit/index.scss';
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .offline-message {
   position: fixed;
   top: 0;
