@@ -8,7 +8,6 @@ import { differenceInMilliseconds } from "date-fns";
 import prettyMs from 'pretty-ms'
 import Navigation from 'components/Navigation'
 import Swipeable from "../../components/Swipeable";
-import { setUserTestProgress, setUserTestFlag } from "../../actions/userTest";
 import isMobile from 'is-mobile'
 import classNames from 'classnames'
 
@@ -45,7 +44,6 @@ class QuizEngage extends Component {
   }
 
   componentWillMount() {
-    this.props.recordUserTestProgress('QuizEngagementStart')
     this.props.setupQuizEngagement()
     this.timeLeftInterval = setInterval(() => {
       if (this.props.quiz.timeLimit && this.props.quizEngagement.startedAt) {
@@ -62,7 +60,6 @@ class QuizEngage extends Component {
   }
 
   componentWillUnmount() {
-    this.props.recordUserTestProgress('QuizEngagementEnd')
     clearInterval(this.timeLeftInterval)
     this.props.endQuizEngagement(this.props.quizEngagement)
   }
@@ -75,7 +72,6 @@ class QuizEngage extends Component {
   }
 
   changeQuestionIndex(questionIndex) {
-    this.props.recordUserTestProgress('QuizEngagementQuestionChange')
     if (questionIndex < 0 || questionIndex > (this.props.questions.length - 1)) return
     this.setState({ questionIndex })
   }
@@ -92,13 +88,11 @@ class QuizEngage extends Component {
 
   handleFinishQuizEngagement(e) {
     e && e.preventDefault()
-    this.props.recordUserTestProgress('QuizEngagementFinish')
     this.props.finishQuizEngagement(this.props.quizEngagement)
   }
 
   handleSwipeQuestionIndexChange(newIndex) {
     this.changeQuestionIndex(newIndex)
-    this.props.recordUserTestFlag('QuestionSwipe')
   }
 
   render() {
@@ -246,12 +240,6 @@ let mapDispatchToProps = (dispatch, props) => {
     updateQuizEngagement: (quizEngagement) => dispatch(updateQuizEngagement({ quizEngagement })),
     finishQuizEngagement: (quizEngagement) => dispatch(finishQuizEngagement({ quizEngagement })),
     endQuizEngagement: (quizEngagement) => dispatch(endQuizEngagement({ quizEngagement })),
-    recordUserTestProgress: (key) => {
-      dispatch(setUserTestProgress(key))
-    },
-    recordUserTestFlag: (key) => {
-      dispatch(setUserTestFlag(key))
-    }
   }
 }
 

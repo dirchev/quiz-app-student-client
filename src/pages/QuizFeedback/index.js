@@ -5,7 +5,6 @@ import { retrieveQuiz } from "actions/quiz"
 import QuizFeedbackQuestion from "./Question";
 import Navigation from 'components/Navigation'
 import Swipeable from "../../components/Swipeable";
-import { setUserTestProgress } from "../../actions/userTest";
 
 class QuizFeedback extends Component {
   constructor (props) {
@@ -18,9 +17,7 @@ class QuizFeedback extends Component {
     this.changeQuestionIndex = this.changeQuestionIndex.bind(this)
   }
 
-  componentDidMount () {
-    this.props.recordUserTestProgress('QuizFeedbackOpen')
-    this.props.retrieveQuizEngagementAndQuiz()
+  componentDidMoun () {
     this.setState({requestedFetch: true})
   }
 
@@ -120,9 +117,6 @@ let mapDispatchToProps = (dispatch, props) => {
     retrieveQuizEngagementAndQuiz: () => {
       dispatch(retrieveQuiz({quizId}))
       dispatch(retrieveQuizEngagement({quizId, quizEngagementId}))
-    },
-    recordUserTestProgress: (key) => {
-      dispatch(setUserTestProgress(key))
     }
   }
 }

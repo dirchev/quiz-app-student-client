@@ -6,12 +6,9 @@ import QuizActions from "./QuizActions";
 import QuizDetails from "./QuizDetails";
 import './index.scss'
 import { listQuizEngagements } from "../../actions/quizEngagement";
-import { setUserTestProgress } from "../../actions/userTest";
-
 
 class QuizPreview extends Component {
   componentWillMount () {
-    this.props.recordQuizPreview()
     if (this.props.quiz.marksReleased) {
       this.props.retrieveQuiz()
       this.props.getQuizEngagements()
@@ -53,9 +50,6 @@ let mapDispatchToProps = (dispatch, props) => {
     prepareQuiz: () => dispatch(prepareQuiz({quizId})),
     retrieveQuiz: () => dispatch(retrieveQuiz({quizId})),
     getQuizEngagements: () => dispatch(listQuizEngagements({quizId})),
-    recordQuizPreview: () => {
-      dispatch(setUserTestProgress('QuizPreview'))
-    }
   }
 }
 

@@ -10,7 +10,6 @@ import quizEngagementReducer from './quizEngagement';
 import globalReducer from './global'
 import requestHistoryReducer from './requestHistory'
 import notificationsReducer from './notifications'
-import userTestingReducer from './user-testing'
 import storage from 'redux-persist/lib/storage'
 import {pick} from 'lodash'
 
@@ -34,8 +33,7 @@ const rootReducer = (state, action) => {
     success: successReducer,
     global: globalReducer,
     requestHistory: requestHistoryReducer,
-    notifications: notificationsReducer,
-    userTesting: userTestingReducer
+    notifications: notificationsReducer
   })(state, action)
 }
 export default rootReducer
