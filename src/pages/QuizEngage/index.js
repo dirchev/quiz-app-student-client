@@ -7,7 +7,7 @@ import { getAllErrorMessages } from "../../utils/errorMessages";
 import { differenceInMilliseconds } from "date-fns";
 import prettyMs from 'pretty-ms'
 import Navigation from 'components/Navigation'
-import Swipable from "../../components/Swipable";
+import Swipeable from "../../components/Swipeable";
 import { setUserTestProgress, setUserTestFlag } from "../../actions/userTest";
 import isMobile from 'is-mobile'
 import classNames from 'classnames'
@@ -185,7 +185,7 @@ class QuizEngage extends Component {
                 ) : null
             }
           </div>
-          <Swipable
+          <Swipeable
             className="questions"
             selectedChildIndex={this.state.questionIndex}
             onSelectedChildIndexChange={this.handleSwipeQuestionIndexChange}
@@ -202,7 +202,7 @@ class QuizEngage extends Component {
                 )
               })
             }
-          </Swipable>
+          </Swipeable>
           {
             this.showFinishButton()
             ? (

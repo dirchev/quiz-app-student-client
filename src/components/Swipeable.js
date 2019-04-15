@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-class Swipable extends Component {
+class Swipeable extends Component {
   constructor () {
     super()
     this.containerRef = React.createRef();
@@ -50,7 +50,7 @@ class Swipable extends Component {
       '--i': this.props.selectedChildIndex.toString(),
       '--tx': (this.state.dragX || 0) + 'px',
     }
-    let classNames = ['swipable']
+    let classNames = ['swipeable']
     if (this.props.className) classNames.push(this.props.className)
     if (this.state.locked) classNames.push('smooth')
     return (
@@ -61,7 +61,7 @@ class Swipable extends Component {
               return (
                 <div
                   key={index}
-                  className="swipable-item"
+                  className="swipeable-item"
                   onMouseDown={this.lock}
                   onTouchStart={this.lock}
                   onTouchMove={this.move}
@@ -79,4 +79,4 @@ class Swipable extends Component {
   }
 }
 
-export default Swipable
+export default Swipeable

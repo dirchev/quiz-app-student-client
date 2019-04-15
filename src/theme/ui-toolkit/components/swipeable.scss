@@ -1,5 +1,5 @@
 // taken from https://css-tricks.com/simple-swipe-with-vanilla-javascript/
-.swipable {
+.swipeable {
   width: 100vw;
   max-width: 100vw;
   overflow-x: hidden;
@@ -28,7 +28,7 @@
       transition: transform .1s ease-out;
     }
 
-    > .swipable-item {
+    > .swipeable-item {
       display: flex;
       align-items: stretch;
       min-width: 100vw;

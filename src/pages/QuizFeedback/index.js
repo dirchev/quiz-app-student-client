@@ -4,7 +4,7 @@ import { retrieveQuizEngagement } from "actions/quizEngagement"
 import { retrieveQuiz } from "actions/quiz"
 import QuizFeedbackQuestion from "./Question";
 import Navigation from 'components/Navigation'
-import Swipable from "../../components/Swipable";
+import Swipeable from "../../components/Swipeable";
 import { setUserTestProgress } from "../../actions/userTest";
 
 class QuizFeedback extends Component {
@@ -69,7 +69,7 @@ class QuizFeedback extends Component {
               }
             </div>
           </div>
-          <Swipable
+          <Swipeable
             className="questions"
             selectedChildIndex={this.state.questionIndex}
             onSelectedChildIndexChange={this.changeQuestionIndex}
@@ -90,7 +90,7 @@ class QuizFeedback extends Component {
                 )
               })
             }
-          </Swipable>
+          </Swipeable>
         </div>
       </Fragment>
     )
