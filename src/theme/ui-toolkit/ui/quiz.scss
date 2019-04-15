@@ -210,10 +210,10 @@
       flex-grow: 1;
       ul > li {
         &.correct {
-          color: map-get($success, 600);
+          color: map-get($success, 800);
         }
         &.incorrect {
-          color: map-get($danger, 600);
+          color: map-get($danger, 800);
         }
       }
       .label {

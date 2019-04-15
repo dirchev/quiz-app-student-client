@@ -11,14 +11,9 @@ class QuizFeedback extends Component {
     super(props)
 
     this.state = {
-      questionIndex: 0,
-      requestedFetch: false
+      questionIndex: 0
     }
     this.changeQuestionIndex = this.changeQuestionIndex.bind(this)
-  }
-
-  componentDidMoun () {
-    this.setState({requestedFetch: true})
   }
 
   handleQuestionIndexChange (questionIndex) {
@@ -39,11 +34,6 @@ class QuizFeedback extends Component {
         Quiz Feedback: <strong>{this.props.quiz.name}</strong>
       </span>
     )
-    if (!this.state.requestedFetch || !this.props.loaded) {
-      return (
-        <span>Loading...</span>
-      )
-    }
     return (
       <Fragment>
         <Navigation leftBackTo={`/quiz/${this.props.quiz._id}/engagements`} title={navTitle} />
@@ -98,7 +88,6 @@ let mapStateToProps = (state, props) => {
   let quizId = props.match.params.quizId
   let quizEngagementId = props.match.params.quizEngagementId
   return {
-    loaded: state.success.QUIZ_RETRIEVE && state.success.QUIZ_ENGAGEMENT_RETRIEVE,
     quiz: state.entities.quizess[quizId],
     questions: (state.entities.quizess[quizId].questions || []).map((_id) => state.entities.questions[_id]),
     quizEngagement: {

@@ -241,14 +241,14 @@
 
     &.has-error {
       .label {
-        color: map-get($danger, 600);
+        color: map-get($danger, 900);
         font-weight: bold;
       }
       .input {
-        border-color: map-get($danger, 600);
+        border-color: map-get($danger, 800);
       }
       .input-message {
-        color: map-get($danger, 600);
+        color: map-get($danger, 800);
       }
     }
   }
