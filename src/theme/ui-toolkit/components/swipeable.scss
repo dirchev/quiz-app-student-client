@@ -1,19 +1,27 @@
-// taken from https://css-tricks.com/simple-swipe-with-vanilla-javascript/
+// idea taken from https://css-tricks.com/simple-swipe-with-vanilla-javascript/
 .swipeable {
   width: 100vw;
   max-width: 100vw;
   overflow-x: hidden;
-  --n: 1;
+  --n: 1; // total number of items
 
   > .items {
     padding: 1em 0;
     display: flex;
     align-items: stretch;
     overflow-y: hidden;
+    // set the width to:
+    // parent width X number of items
     width: calc(var(--n)*100%);
+
+    // scroll the contents of based on:
+    // 1. the currently selected item (--i)
+    // 2. the total number of items (--n)
+    // 3. the current offset (--tx) - when the user is in the process of scrolling
     transform: translate(calc(var(--i, 0) / var(--n) * -100% + var(--tx, 0px)));
     transition: transform .3s ease-out;
 
+    // rules for large screens - show in vertical list
     @media screen and (min-width: 660px) {
       display: flex;
       flex-direction: column;
@@ -24,6 +32,7 @@
       padding: 0;
     }
 
+    // faster animations when the class smooth is set
     &.smooth {
       transition: transform .1s ease-out;
     }
