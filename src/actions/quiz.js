@@ -43,7 +43,6 @@ export let prepareQuiz = ({quizId}) => async (dispatch, getState) => {
 }
 
 export let retrieveQuiz = ({quizId}) => async (dispatch, getState) => {
-  if (Date.now() - getState().requestHistory['QUIZ_RETRIEVE'] < 60000) return
   dispatch({
     type: 'QUIZ_RETRIEVE_REQUEST',
   })
